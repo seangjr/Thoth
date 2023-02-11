@@ -1,7 +1,9 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const App = () => {
     return (
-        // This is where all the routes will go
-        <div>App</div>
+        <Router>
+            <Routes></Routes>
+        </Router>
     );
 };
 
