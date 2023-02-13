@@ -1,14 +1,4 @@
-import {
-  Button,
-  Heading,
-  Text,
-  Container,
-  Box,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-} from "@chakra-ui/react";
+import { Button, Heading, Text, Box } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 
 const landing = () => {
