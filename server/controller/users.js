@@ -31,3 +31,5 @@ module.exports.loginUser = (req, res) => {
             res.status(500).end(err);
         });
 };
+
+module.exports.registerUser = (req, res) => {};
