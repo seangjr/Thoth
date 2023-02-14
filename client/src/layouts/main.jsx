@@ -1,5 +1,9 @@
-const Layout = () => {
-    return <div>Layout</div>;
+const Layout = ({ children }) => {
+    return (
+        <>
+            <div>Layout</div>
+        </>
+    );
 };
 
 export default Layout;

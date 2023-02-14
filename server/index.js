@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"); // commonjs
 const cors = require("cors");
 
 /* Init */
