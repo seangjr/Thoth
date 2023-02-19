@@ -23,7 +23,6 @@ const register = () => {
       flexDirection="column"
       bgColor="#23262F"
       overflow="hidden"
-      w="100vw"
       h="100vh"
       justifyContent="center"
       alignItems="center"
