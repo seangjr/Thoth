@@ -37,7 +37,7 @@ const Navbar = () => {
                     src={Logo}
                     alt="Thoth logo"
                     mr="20px"
-                    boxSize={{ lg: "69px", md: "69px", base: "40px" }}
+                    boxSize={{ lg: "40px", md: "69px", base: "40px" }}
                 />
                 <Heading
                     color="#FCFCFD"
