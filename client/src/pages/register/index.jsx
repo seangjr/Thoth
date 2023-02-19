@@ -23,13 +23,22 @@ const register = () => {
             flexDirection="column"
             bgColor="#23262F"
             overflow="hidden"
-            w="100vw"
             h="100vh"
             justifyContent="center"
             alignItems="center"
         >
             <Box>
-                <Image src={Logo} alt="Thoth Logo" mb="20px" boxSize="69px" />
+                <Image
+                    src={Logo}
+                    alt="Thoth Logo"
+                    mb="20px"
+                    boxSize="69px"
+                    visibility={{
+                        lg: "visible",
+                        md: "visible",
+                        base: "hidden",
+                    }}
+                />
                 <Heading size="xl" color="#FCFCFD" mb="20px">
                     Sign up
                 </Heading>
@@ -70,7 +79,7 @@ const register = () => {
                 </Button>
                 <Text mb="20px" color="#777E90" w="100%">
                     Already have an account?{" "}
-                    <Link color="#5E6EFF" as={NavLink} to="/">
+                    <Link color="#5E6EFF" as={NavLink} to="/login">
                         Log in
                     </Link>
                 </Text>

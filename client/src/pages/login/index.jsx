@@ -12,7 +12,7 @@ import {
     Link,
 } from "@chakra-ui/react";
 
-import { Navlink } from "react-router-dom";
+import { NavLink, Navlink } from "react-router-dom";
 
 import Logo from "../../assets/tlg.png";
 
@@ -25,15 +25,27 @@ const login = () => {
             justifyContent="center"
             bgColor="#23262F"
             overflow="hidden"
-            w="100vw"
             h="100vh"
         >
             <Box>
-                <Image src={Logo} alt="Thoth Logo" mb="20px" boxSize="69px" />
+                <Image
+                    src={Logo}
+                    alt="Thoth Logo"
+                    mb="20px"
+                    boxSize="69px"
+                    visibility={{
+                        lg: "visible",
+                        md: "visible",
+                        base: "hidden",
+                    }}
+                />
                 <Heading size="xl" color="#FFFFFF" mb="20px">
                     Log In
                 </Heading>
-                <FormControl mb="15px" w="100%">
+                <FormControl
+                    mb="15px"
+                    w={{ lg: "400px", md: "400px", base: "100%" }}
+                >
                     <FormLabel size="xs" color="#777E90">
                         EMAIL/USERNAME:{" "}
                     </FormLabel>
@@ -44,7 +56,10 @@ const login = () => {
                         color="#777E90"
                     />
                 </FormControl>
-                <FormControl mb="15px" w="100%">
+                <FormControl
+                    mb="15px"
+                    w={{ lg: "400px", md: "400px", base: "100%" }}
+                >
                     <FormLabel size="xs" color="#777E90">
                         PASSWORD:{" "}
                     </FormLabel>
@@ -55,12 +70,19 @@ const login = () => {
                         color="#777E90"
                     />
                 </FormControl>
-                <Button colorScheme="gray" w="100%" mt="10px" mb="10px">
+                <Button
+                    colorScheme="gray"
+                    w={{ lg: "400px", md: "400px", base: "100%" }}
+                    mt="10px"
+                    mb="10px"
+                >
                     Login
                 </Button>
                 <Text color="#777E90">
                     Don't have an account?{" "}
-                    <Link color="blue">Sign up now!</Link>
+                    <Link color="#5E6EFF" as={NavLink} to="/register">
+                        Sign up now!
+                    </Link>
                 </Text>
             </Box>
         </Box>
