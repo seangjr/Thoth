@@ -1,5 +1,6 @@
 import { Button, Heading, Text, Box } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
+import { NavLink } from "react-router-dom";
 
 const landing = () => {
   return (
@@ -24,7 +25,9 @@ const landing = () => {
           <Text fontSize="lg" mb="20px" color="#777E90">
             The next online educational forum.
           </Text>
-          <Button colorScheme="messenger">Get Started</Button>
+          <Button colorScheme="messenger" as={NavLink} to="register">
+            Get Started
+          </Button>
         </Box>
         {/* TODO add image */}
       </Box>
@@ -55,7 +58,9 @@ const landing = () => {
               <Heading size="xl" mb="40px" color="#FCFCFD" textAlign="center">
                 We inspire students to collaborate and learn.
               </Heading>
-              <Button colorScheme="messenger">Get Started</Button>
+              <Button colorScheme="messenger" as={NavLink} to="register">
+                Get Started
+              </Button>
             </Box>
 
             <Box
@@ -155,7 +160,9 @@ const landing = () => {
         <Text fontSize="lg" mb="40px" color="#777E90">
           Let's start learning with Thoth
         </Text>
-        <Button colorScheme="messenger">Get started</Button>
+        <Button colorScheme="messenger" as={NavLink} to="register">
+          Get started
+        </Button>
       </Box>
     </Box>
   );
