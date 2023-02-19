@@ -21,31 +21,18 @@ const Footer = () => {
       h="30%"
       zIndex="9"
     >
-      <Box
-        w="70%"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box>
+      <Box w="50%" display="flex" gap="30px" alignItems="center">
+        <Box padding="2%">
           {/* insert logo */}
           <Heading color="#FCFCFD">Thoth</Heading>
         </Box>
-        <Box>
-          <Text color="#777E90">About</Text>
-          <Text color="#777E90">Projects</Text>
-        </Box>
-        <Box>
-          <Text color="#777E90">What We Do</Text>
-          <Text color="#777E90">Press</Text>
-        </Box>
-        <Box>
-          <Text color="#777E90">Jobs</Text>
-          <Text color="#777E90">Download</Text>
-        </Box>
+
+        <Text color="#777E90">Sign up</Text>
+        <Text color="#777E90">Log in</Text>
+        <Text color="#777E90">About</Text>
       </Box>
-      <Divider w="70%" colorScheme="gray" mt="20px" mb="20px" />
-      <Box w="70%">
+      <Divider w="50%" colorScheme="gray" mt="20px" mb="20px" />
+      <Box w="50%">
         <Text color="#777E90" mb="20px">
           Copyright © 2023 Thoth. All rights reserved
         </Text>
