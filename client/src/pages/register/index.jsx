@@ -6,8 +6,6 @@ import {
     Image,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Input,
     Link,
 } from "@chakra-ui/react";
@@ -16,7 +14,7 @@ import { NavLink } from "react-router-dom";
 
 import Logo from "../../assets/tlg.png";
 
-const register = () => {
+const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault();
         // TODO: Add register logic
@@ -102,4 +100,4 @@ const register = () => {
     );
 };
 
-export default register;
+export default Register;

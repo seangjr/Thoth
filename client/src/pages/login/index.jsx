@@ -1,8 +1,6 @@
 import {
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Box,
     Input,
     Button,
@@ -10,16 +8,41 @@ import {
     Image,
     Text,
     Link,
+    useToast,
 } from "@chakra-ui/react";
 
-import { NavLink, Navlink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import MD5 from "crypto-js/md5";
 
 import Logo from "../../assets/tlg.png";
 
-const login = () => {
+const Login = () => {
+    const navigate = useNavigate();
+    const toast = useToast();
     const handleSubmit = (e) => {
+        // e is the event
         e.preventDefault();
-        // TODO: Add login logic
+        axios
+            .post("http://localhost:5000/api/users/login", {
+                email: e.target.email.value,
+                password: MD5(e.target.password.value).toString(), // MD5 hash the password
+            })
+            .then((res) => {
+                localStorage.setItem("token", res.data.token); // Store the token in localStorage
+                localStorage.setItem("user", res.data.id); // Store the user ID in localStorage
+                navigate("/feed"); // Navigate to the feed
+            })
+            .catch((err) => {
+                toast({
+                    title: "An error occurred.",
+                    description: err.response.data.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+            });
     };
     return (
         <Box
@@ -57,6 +80,8 @@ const login = () => {
                         </FormLabel>
                         <Input
                             type="email"
+                            id="email"
+                            name="email"
                             mb="20px"
                             borderRadius="10px"
                             color="#777E90"
@@ -72,6 +97,8 @@ const login = () => {
                         </FormLabel>
                         <Input
                             type="password"
+                            id="password"
+                            name="password"
                             mb="20px"
                             borderRadius="10px"
                             color="#777E90"
@@ -98,4 +125,4 @@ const login = () => {
     );
 };
 
-export default login;
+export default Login;

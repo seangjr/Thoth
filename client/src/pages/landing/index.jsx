@@ -2,7 +2,7 @@ import { Button, Heading, Text, Box } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 
-const landing = () => {
+const Landing = () => {
     return (
         <Box
             display="flex"
@@ -223,4 +223,4 @@ const landing = () => {
     );
 };
 
-export default landing;
+export default Landing;
