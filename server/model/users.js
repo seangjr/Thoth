@@ -43,7 +43,7 @@ module.exports.getUser = (id) => {
     });
 };
 
-module.exports.createUser = (username, email, password) => {
+module.exports.registerUser = (username, email, password) => {
     return new Promise((resolve, reject) => {
         connection.query(
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
