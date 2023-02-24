@@ -7,7 +7,6 @@ module.exports.loginUser = (req, res) => {
     userModel
         .loginUser(email, password)
         .then((result) => {
-            // use hashing library
             const user = result[0];
             if (user) {
                 // create token

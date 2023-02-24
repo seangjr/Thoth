@@ -16,4 +16,3 @@ app.use("/api", require("./routes/routes"));
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
-

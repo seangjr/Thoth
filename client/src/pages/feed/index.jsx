@@ -1,12 +1,13 @@
 import { Box, Container, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 const Feed = () => {
     const toast = useToast();
     const navigate = useNavigate();
+    const location = useLocation(); // Get the location object
     const [user, setUser] = useState(null);
-    const fetchUser = async () => {
+    const fetchUser = () => {
         // Verify the user's token
         try {
             axios
@@ -53,6 +54,7 @@ const Feed = () => {
     return user ? (
         <div>
             <h1>User ID Verified: {user.id}</h1>
+            <h1>Username: {location.state.username}</h1>
         </div>
     ) : (
         <Box>
