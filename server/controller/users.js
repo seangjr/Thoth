@@ -1,6 +1,5 @@
 const userModel = require("../model/users");
 const jwt = require("jsonwebtoken");
-// hash library
 
 module.exports.loginUser = (req, res) => {
     const { email, password } = req.body;
