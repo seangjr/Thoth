@@ -37,16 +37,31 @@ module.exports.verify = (req, res) => {
 
 module.exports.registerUser = (req, res) => {
     const { email, username, password } = req.body;
-    userModel
-        .registerUser(username, email, password)
-        .then((result) => {
-            if (result.affectedRows === 1) {
-                res.status(201).end("User registered."); // 201 created
-            } else {
-                res.status(500).end("Error registering user."); // internal server err
-            }
-        })
-        .catch((err) => {
-            res.status(500).end("Error registering user.");
-        });
+    if (!email || !username || !password) {
+        res.status(400).end("Missing required fields");
+        return;
+    } else {
+        userModel
+            .checkUser(email)
+            .then((result) => {
+                if (result.length === 1) {
+                    res.status(409).end("User already exists."); // 409 conflict
+                    console.log("User already exists.");
+                    return;
+                } else {
+                    console.log(result);
+                }
+                // userModel
+                // .registerUser(username, email, password)
+                // .then((result) => {
+                //     res.status(201).end("User registered.");
+                // })
+                // .catch((err) => {
+                //     res.status(500).end("Error registering user.");
+                // });
+            })
+            .catch((err) => {
+                res.status(500).end("Error registering user.");
+            });
+    }
 };

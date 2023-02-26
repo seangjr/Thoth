@@ -90,3 +90,19 @@ module.exports.deleteUser = (id) => {
         );
     });
 };
+
+module.exports.checkUser = (email) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "SELECT * FROM users WHERE email = ?",
+            [email],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
