@@ -71,7 +71,7 @@ const Login = () => {
                     }}
                 />
                 <Heading size="xl" color="#FFFFFF" mb="20px">
-                    Log In
+                    Log in
                 </Heading>
                 <form onSubmit={handleSubmit}>
                     <FormControl

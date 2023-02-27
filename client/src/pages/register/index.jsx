@@ -36,25 +36,33 @@ const Register = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        // TODO: Add register logic
         axios
             .post("http://localhost:5000/api/users/register", {
                 email: e.target.email.value,
                 username: e.target.username.value,
                 password: MD5(e.target.password.value).toString(), // MD5 hash the password
             })
-            .then((res) => {
-                console.log("res");
+            .then(() => {
+                toast({
+                    title: "User registered.",
+                    description: "You can now log in.",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+                navigate("/login");
             })
             .catch((err) => {
                 toast({
-                    title: "An error when registering user.",
-                    description: "Please ensure all fields are filled",
+                    title: "An error occurred while registering the user.",
+                    description: err.response.data, // Error message from the server.
                     status: "error",
                     duration: 9000,
                     isClosable: true,
                     position: "top",
                 });
+                console.log(err);
             });
     };
 

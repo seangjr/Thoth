@@ -37,30 +37,21 @@ module.exports.verify = (req, res) => {
 module.exports.registerUser = (req, res) => {
     const { email, username, password } = req.body;
     if (!email || !username || !password) {
-        res.status(400).end("Missing required fields");
-        return;
+        res.status(400).end("Missing required fields.");
     } else {
-        userModel
-            .checkUser(email)
-            .then((result) => {
-                if (result.length === 1) {
-                    res.status(409).end("User already exists."); // 409 conflict
-                    console.log("User already exists.");
-                    return;
-                } else {
-                    console.log(result);
-                }
-                // userModel
-                // .registerUser(username, email, password)
-                // .then((result) => {
-                //     res.status(201).end("User registered.");
-                // })
-                // .catch((err) => {
-                //     res.status(500).end("Error registering user.");
-                // });
-            })
-            .catch((err) => {
-                res.status(500).end("Error registering user.");
-            });
+        userModel.checkUser(email).then((result) => {
+            if (result.length >= 1) {
+                res.status(409).end("User already exists."); // 409 conflict
+            } else {
+                userModel
+                    .registerUser(username, email, password)
+                    .then((result) => {
+                        res.status(201).json(result);
+                    })
+                    .catch((err) => {
+                        res.status(500).end(err);
+                    });
+            }
+        });
     }
 };

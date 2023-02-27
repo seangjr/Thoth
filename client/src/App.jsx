@@ -16,10 +16,9 @@ const App = () => {
             <Routes>
                 <Route index element={<Landing />} />
                 <Route path="/" element={<Root />}>
-                    {/* TODO: Add routes to feed, profile, posts */}
-                    <Route path="about" element={<About />} />
+                    <Route path="feed" element={<Feed />} />
                 </Route>
-                <Route path="/feed" element={<Feed />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
             </Routes>

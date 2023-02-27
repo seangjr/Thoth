@@ -1,8 +1,10 @@
 import { Button, Heading, Text, Box } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Landing = () => {
+    const user = useAuth();
     return (
         <Box
             display="flex"
@@ -25,9 +27,19 @@ const Landing = () => {
                     <Text fontSize="lg" mb="20px" color="#777E90">
                         The next online educational forum.
                     </Text>
-                    <Button colorScheme="messenger" as={NavLink} to="register">
-                        Get Started
-                    </Button>
+                    {user ? (
+                        <Button colorScheme="messenger" as={NavLink} to="feed">
+                            Open Feed
+                        </Button>
+                    ) : (
+                        <Button
+                            colorScheme="messenger"
+                            as={NavLink}
+                            to="register"
+                        >
+                            Get Started
+                        </Button>
+                    )}
                 </Box>
                 {/* TODO add image */}
             </Box>
@@ -67,13 +79,23 @@ const Landing = () => {
                             >
                                 We inspire students to collaborate and learn.
                             </Heading>
-                            <Button
-                                colorScheme="messenger"
-                                as={NavLink}
-                                to="register"
-                            >
-                                Get Started
-                            </Button>
+                            {user ? (
+                                <Button
+                                    colorScheme="messenger"
+                                    as={NavLink}
+                                    to="feed"
+                                >
+                                    Open Feed
+                                </Button>
+                            ) : (
+                                <Button
+                                    colorScheme="messenger"
+                                    as={NavLink}
+                                    to="register"
+                                >
+                                    Get Started
+                                </Button>
+                            )}
                         </Box>
 
                         <Box
@@ -204,20 +226,45 @@ const Landing = () => {
                 justifyContent="center"
                 alignItems="center"
             >
-                <Heading
-                    textAlign="center"
-                    size="2xl"
-                    color="#FCFCFD"
-                    mb="40px"
-                >
-                    Sign up for an account now!
-                </Heading>
-                <Text fontSize="lg" mb="40px" color="#777E90">
-                    Let's start learning with Thoth
-                </Text>
-                <Button colorScheme="messenger" as={NavLink} to="register">
-                    Get started
-                </Button>
+                {user ? (
+                    <>
+                        <Heading
+                            textAlign="center"
+                            size="2xl"
+                            color="#FCFCFD"
+                            mb="40px"
+                        >
+                            Thanks for starting your journey with us.
+                        </Heading>
+                        <Text fontSize="lg" mb="40px" color="#777E90">
+                            Click the button below to view your feed.
+                        </Text>
+                        <Button colorScheme="messenger" as={NavLink} to="feed">
+                            Open Feed
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Heading
+                            textAlign="center"
+                            size="2xl"
+                            color="#FCFCFD"
+                            mb="40px"
+                        >
+                            Sign up for an account now!
+                        </Heading>
+                        <Text fontSize="lg" mb="40px" color="#777E90">
+                            Let's start learning with Thoth
+                        </Text>
+                        <Button
+                            colorScheme="messenger"
+                            as={NavLink}
+                            to="register"
+                        >
+                            Get started
+                        </Button>
+                    </>
+                )}
             </Box>
         </Box>
     );
