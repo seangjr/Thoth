@@ -1,33 +1,29 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //pages
 import Landing from "./pages/landing/index";
-import Register from "./pages/register/index";
-import Login from "./pages/login/index";
-import About from "./pages/about/index";
+import Register from "./pages/register";
+import Login from "./pages/login";
+import About from "./pages/about";
+import Feed from "./pages/feed";
 
 //layouts
 import Root from "./layouts/root";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Root />}>
-      <Route index element={<Landing />} />
-      <Route path="register" element={<Register />} />
-      <Route path="login" element={<Login />} />
-      <Route path="about" element={<About />} />
-    </Route>
-  )
-);
-
 const App = () => {
-  return <RouterProvider router={router} />;
+    return (
+        <Router>
+            <Routes>
+                <Route index element={<Landing />} />
+                <Route path="/" element={<Root />}>
+                    <Route path="feed" element={<Feed />} />
+                </Route>
+                <Route path="/about" element={<About />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
+        </Router>
+    );
 };
 
 export default App;

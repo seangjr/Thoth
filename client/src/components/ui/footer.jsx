@@ -1,13 +1,6 @@
-import {
-  Heading,
-  Box,
-  Text,
-  Divider,
-  Input,
-  IconButton,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Heading, Box, Text, Divider, Link } from "@chakra-ui/react";
+
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -27,9 +20,11 @@ const Footer = () => {
           <Heading color="#FCFCFD">Thoth</Heading>
         </Box>
 
-        <Text color="#777E90">Sign up</Text>
-        <Text color="#777E90">Log in</Text>
-        <Text color="#777E90">About</Text>
+        <Link color="#777E90" as={NavLink} to="register">
+          Sign up
+        </Link>
+        <Link color="#777E90">Log in</Link>
+        <Link color="#777E90">About</Link>
       </Box>
       <Divider w="50%" colorScheme="gray" mt="20px" mb="20px" />
       <Box w="50%">
