@@ -6,6 +6,7 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import About from "./pages/about";
 import Feed from "./pages/feed";
+import Contact from "./pages/contact";
 
 //layouts
 import Root from "./layouts/root";
@@ -21,6 +22,7 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/contact" element={<Contact />} />
             </Routes>
         </Router>
     );
