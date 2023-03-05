@@ -59,10 +59,10 @@ module.exports.updatePost = (id, title, content, user_id) => {
     });
 };
 
-module.exports.deletePost = (id) => {
+module.exports.deletePost = (id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "DELETE FROM posts WHERE id = ?",
+            "DELETE FROM posts WHERE id = ? AND user_id = ?",
             [id],
             (err, results) => {
                 if (err) {
