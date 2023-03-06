@@ -1,5 +1,4 @@
 const commentsModel = require("../model/comments");
-
 module.exports.getComments = (req, res) => {
     commentsModel
         .getComments()
