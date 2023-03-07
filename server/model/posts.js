@@ -27,6 +27,22 @@ module.exports.getPost = (id) => {
     });
 };
 
+module.exports.getPostByUser = (user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "SELECT * FROM posts WHERE user_id = ?",
+            [user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
 module.exports.createPost = (title, content, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
@@ -59,10 +75,10 @@ module.exports.updatePost = (id, title, content, user_id) => {
     });
 };
 
-module.exports.deletePost = (id) => {
+module.exports.deletePost = (id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "DELETE FROM posts WHERE id = ?",
+            "DELETE FROM posts WHERE id = ? AND user_id = ?",
             [id],
             (err, results) => {
                 if (err) {

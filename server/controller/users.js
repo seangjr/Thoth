@@ -55,3 +55,64 @@ module.exports.registerUser = (req, res) => {
         });
     }
 };
+
+module.exports.getUsers = (req, res) => {
+    userModel
+        .getUsers()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};
+
+module.exports.getUser = (req, res) => {
+    const { id } = req.params;
+    userModel
+        .getUser(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};
+
+module.exports.updateUser = (req, res) => {
+    const { id } = req.params;
+    const { username, email } = req.body;
+    userModel
+        .updateUser(id, username, email)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};
+
+module.exports.updateUserPassword = (req, res) => {
+    const { id } = req.params;
+    const { newPassword, oldPassword } = req.body;
+    userModel
+        .updateUserPassword(id, newPassword, oldPassword)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};
+
+module.exports.deleteUser = (req, res) => {
+    const { id } = req.params;
+    userModel
+        .deleteUser(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};

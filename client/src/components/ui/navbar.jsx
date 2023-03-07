@@ -22,7 +22,7 @@ const Navbar = () => {
             justifyContent="space-between"
             position="fixed"
             w="100%"
-            h="10%"
+            h="13vh"
             bg="#1B1D24"
             zIndex="10"
         >
@@ -37,7 +37,7 @@ const Navbar = () => {
                     src={Logo}
                     alt="Thoth logo"
                     mr="20px"
-                    boxSize={{ lg: "40px", md: "69px", base: "40px" }}
+                    boxSize={{ lg: "40px", md: "40px", base: "40px" }}
                 />
                 <Heading
                     color="#FCFCFD"
@@ -46,6 +46,7 @@ const Navbar = () => {
                         md: "visible",
                         base: "hidden",
                     }}
+                    size={{ lg: "md", md: "md", base: "md" }}
                 >
                     Thoth
                 </Heading>
