@@ -25,15 +25,17 @@ const EditProfile = () => {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            bgColor="#FFFFFF"
+            bgColor="#23262F"
             overflow="hidden"
             h="100vh"
         >
             <Box w="70%">
-                <Box id="heading" mb="35px">
-                    <Heading mb="10px">Edit Profile</Heading>
-                    <Text fontSize="sm">
-                        You can set your prefered display name, create your
+                <Box id="heading" mb="35px" mt="3em">
+                    <Heading mb="10px" color="#FFF">
+                        Edit Profile
+                    </Heading>
+                    <Text fontSize="sm" color="#fff">
+                        You can set your preferred display name, create your
                         profile and manage other personal settings
                     </Text>
                 </Box>
@@ -58,11 +60,11 @@ const EditProfile = () => {
                                 />
                             </Box>
                             <Box w="40%">
-                                <Heading mb="5px" fontSize="md">
+                                <Heading mb="5px" fontSize="md" color="#fff">
                                     Profile Picture
                                 </Heading>
-                                <Text mb="5px" fontSize="xs">
-                                    We recommend of an image of at least 400x400
+                                <Text mb="5px" fontSize="xs" color="#fff">
+                                    We recommend an image of at least 400x400
                                 </Text>
                                 <Button
                                     size="sm"
@@ -77,16 +79,25 @@ const EditProfile = () => {
                         </Box>
                     </Box>
                     <Box id="details" w="50%">
-                        <Heading fontSize="md">Account Info</Heading>
+                        <Heading fontSize="md" color="#fff">
+                            Account Info
+                        </Heading>
                         <br />
                         <FormControl isRequired>
-                            <FormLabel fontSize="sm">Username:</FormLabel>
-                            <Input mb="2rem" type="text" />
-                            <FormLabel fontSize="sm">Display Name:</FormLabel>
-                            <Input mb="2rem" type="text" />
-                            <FormLabel fontSize="sm">Bio:</FormLabel>
+                            <FormLabel fontSize="sm" color="#fff">
+                                Username
+                            </FormLabel>
+                            <Input mb="2rem" type="text" color="#fff" />
+                            <FormLabel fontSize="sm" color="#fff">
+                                Display Name
+                            </FormLabel>
+                            <Input mb="2rem" type="text" color="#fff" />
+                            <FormLabel fontSize="sm" color="#fff">
+                                Bio
+                            </FormLabel>
                             <Textarea
                                 mb="2rem"
+                                color="#fff"
                                 placeholder="Tell everyone more about yourself"
                             ></Textarea>
                         </FormControl>
