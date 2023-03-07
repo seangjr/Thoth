@@ -56,6 +56,17 @@ module.exports.registerUser = (req, res) => {
     }
 };
 
+module.exports.getUsers = (req, res) => {
+    userModel
+        .getUsers()
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err);
+        });
+};
+
 module.exports.getUser = (req, res) => {
     const { id } = req.params;
     userModel

@@ -1,8 +1,8 @@
-const app = require("express");
-const router = app.Router();
+const express = require("express");
+const router = express.Router();
 
 const loggedIn = require("../middleware/loggedIn");
-const controller = require("../controller/posts");
+const controller = require("../controller/comments");
 
 router.get("/", controller.getComments);
 router.get("/:id", controller.getComment);
