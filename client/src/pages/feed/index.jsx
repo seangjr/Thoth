@@ -1,11 +1,4 @@
-import {
-    Box,
-    Container,
-    Heading,
-    Spinner,
-    Avatar,
-    Badge,
-} from "@chakra-ui/react";
+import { Box, Container, Heading, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ListItem from "../../components/feed/ListItem";
