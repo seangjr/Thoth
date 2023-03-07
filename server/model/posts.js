@@ -27,6 +27,22 @@ module.exports.getPost = (id) => {
     });
 };
 
+module.exports.getPostByUser = (user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "SELECT * FROM posts WHERE user_id = ?",
+            [user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
 module.exports.createPost = (title, content, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(

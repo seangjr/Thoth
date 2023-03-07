@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 CREATE TABLE IF NOT EXISTS `post_images` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `post_id` int(11) NOT NULL,
-    `image` varchar(255) NOT NULL,
+    `image` BLOB NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
@@ -42,5 +42,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
     KEY `post_id_idx` (`post_id`),
     KEY `user_id_idx` (`user_id`)
 );
+
+-- ADD THE ROLE IN USERS TABLE
+ALTER TABLE `users` ADD `role` VARCHAR(255) NOT NULL DEFAULT 'user' AFTER `email`;
 
 SHOW TABLES;
