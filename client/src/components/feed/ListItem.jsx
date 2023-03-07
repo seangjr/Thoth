@@ -1,7 +1,7 @@
-import { Box, Avatar, Badge } from "@chakra-ui/react";
-const ListItem = () => {
+import { Box, Avatar, Badge, Divider } from "@chakra-ui/react";
+const ListItem = ({ topic, author, date, upvotes }) => {
     return (
-        <Box display="flex" flexDirection="row" px={10} mt={5}>
+        <Box display="flex" flexDirection="row" px={10} mt={5} mb={3}>
             <Avatar src="https://bit.ly/dan-abramov" />
             <Box
                 display="flex"
@@ -11,18 +11,58 @@ const ListItem = () => {
                 color="#FFF"
                 ml={5}
             >
-                <Box fontWeight="bold">Topic</Box>
-                <Box display="flex" flexDirection="row">
-                    <Box mr={2}>Author</Box>
-                    <Box mr={2} color="gray.500">
-                        Date
+                <Box
+                    fontWeight="bold"
+                    _hover={{
+                        color: "#0CC5FF",
+                        cursor: "pointer",
+                        textDecor: "underline",
+                    }}
+                >
+                    {topic}
+                </Box>
+                <Box
+                    display="flex"
+                    flexDirection="row"
+                    visibility={{
+                        lg: "visible",
+                        md: "visible",
+                        base: "hidden",
+                    }}
+                >
+                    <Box
+                        mr={2}
+                        _hover={{
+                            color: "#0CC5FF",
+                            cursor: "pointer",
+                            textDecor: "underline",
+                        }}
+                    >
+                        {author}
                     </Box>
-                    <Box color="gray.500">Replies</Box>
+                    <Box mr={2} color="gray.500">
+                        {date}
+                    </Box>
+                    <Box color="gray.500">{upvotes}</Box>
                 </Box>
             </Box>
             {/* Tags */}
-            <Box>
-                <Badge h={5} bg="#0CC5FF" color="#FFF">
+            <Box
+                visibility={{
+                    lg: "visible",
+                    md: "visible",
+                    base: "hidden",
+                }}
+            >
+                <Badge
+                    h={5}
+                    bg="#0CC5FF"
+                    color="#FFF"
+                    _hover={{
+                        cursor: "pointer",
+                        textDecor: "underline",
+                    }}
+                >
                     #Test
                 </Badge>
             </Box>

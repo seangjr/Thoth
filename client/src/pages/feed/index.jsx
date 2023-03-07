@@ -37,7 +37,7 @@ const Feed = () => {
                     borderRadius={20}
                 >
                     <Heading color="#FFF" p={10}>
-                        Welcome to Thoth, {user.username}!
+                        Welcome, {user.username}!
                     </Heading>
                     <Box px={10}>
                         <Box
@@ -51,27 +51,44 @@ const Feed = () => {
                             color="#FFF"
                         >
                             <Box fontWeight="bold">TOPIC</Box>
-                            <Box fontWeight="bold">TAGS</Box>
+                            <Box
+                                fontWeight="bold"
+                                visibility={{
+                                    lg: "visible",
+                                    md: "visible",
+                                    base: "hidden",
+                                }}
+                            >
+                                TAGS
+                            </Box>
                         </Box>
                     </Box>
                     {/* ListItems */}
                     <Box display="flex" flexDirection="column">
-                        <ListItem />
-                        <ListItem />
-                        <ListItem />
+                        <ListItem
+                            topic="How to use Thoth?"
+                            author="Thoth Team"
+                            date="March 7, 2023"
+                            upvotes="100 upvotes"
+                        />
+                        <ListItem
+                            topic="This is a test topic"
+                            author="Thoth Team"
+                            date="March 7, 2023"
+                            upvotes="100 upvotes"
+                        />
                     </Box>
                 </Box>
             </Container>
         </Box>
     ) : (
-        <Box>
+        <Box bg="#23262F">
             <Container
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
                 maxW="container.lg"
-                bg="#23262F"
                 centerContent
                 h="100vh"
                 p={4}

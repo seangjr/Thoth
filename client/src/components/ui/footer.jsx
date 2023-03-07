@@ -38,12 +38,13 @@ const Footer = () => {
             </Box>
             <Divider
                 w={{ lg: "50%", md: "full", base: "full" }}
+                visibility={{ lg: "visible", md: "visible", base: "hidden" }}
                 colorScheme="gray"
                 mt="20px"
                 mb="20px"
             />
             <Box w={{ lg: "50%", md: "full", base: "full" }}>
-                <Text color="#777E90" mb="20px">
+                <Text color="#777E90" mb="20px" ml={3}>
                     Copyright © 2023 Thoth. All rights reserved
                 </Text>
             </Box>
