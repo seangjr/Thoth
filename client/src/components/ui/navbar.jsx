@@ -25,7 +25,7 @@ import Logo from "../../assets/tlg.png";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
@@ -33,6 +33,24 @@ const Navbar = () => {
     const user = useAuth();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef();
+    const handleInput = (e) => {
+        e.preventDefault();
+        // if url is not in feed, redirect to feed
+        if (window.location.pathname !== "/feed") {
+            navigate("/feed");
+        }
+        if (e.target.value === "") {
+            // eslint-disable-next-line no-restricted-globals
+            history.pushState(null, null, `/feed`);
+        } else {
+            // eslint-disable-next-line no-restricted-globals
+            history.pushState(
+                null,
+                null,
+                `/feed?search=${e.target.value.toLowerCase()}`,
+            );
+        }
+    };
     const handleLogout = () => {
         localStorage.clear();
         navigate("/login");
@@ -88,7 +106,11 @@ const Navbar = () => {
                         pointerEvents="none"
                         children={<SearchIcon color="gray.300" />}
                     />
-                    <Input placeholder="Search Questions" color="gray.300" />
+                    <Input
+                        placeholder="Search questions"
+                        color="gray.300"
+                        onChange={handleInput}
+                    />
                 </InputGroup>
 
                 <IconButton

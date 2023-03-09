@@ -1,10 +1,37 @@
-import { Box, Container, Heading, Spinner } from "@chakra-ui/react";
+import {
+    Box,
+    Container,
+    Heading,
+    Spinner,
+    Stack,
+    Skeleton,
+    SkeletonCircle,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ListItem from "../../components/feed/ListItem";
+import axios from "axios";
 const Feed = () => {
     // Get the user from the AuthContext.
     const user = useAuth();
+    const [feed, setFeed] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const fetchFeed = () => {
+        axios
+            .get("http://localhost:5000/api/posts")
+            .then((res) => {
+                setFeed(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    useEffect(() => {
+        fetchFeed();
+    }, []);
+    useEffect(() => {
+        setLoading(false);
+    }, [feed]);
     return user ? (
         <Box>
             <Container
@@ -13,8 +40,7 @@ const Feed = () => {
                 alignItems="center"
                 justifyContent="center"
                 maxW="container.2xl"
-                centerContent
-                h="100vh"
+                // h="100vh"
                 bg={user ? "#23262F" : "#FCFCFD"}
                 p={4}
             >
@@ -23,8 +49,6 @@ const Feed = () => {
                     flexDirection="column"
                     maxW="container.xl"
                     w="100%"
-                    centerContent
-                    h="100vh"
                     mt="13vh"
                     bg={user ? "#1B1D24" : "#FCFCFD"}
                     borderRadius={20}
@@ -58,18 +82,28 @@ const Feed = () => {
                     </Box>
                     {/* ListItems */}
                     <Box display="flex" flexDirection="column">
-                        <ListItem
-                            topic="How to use Thoth?"
-                            author="Thoth Team"
-                            date="March 7, 2023"
-                            upvotes="100 upvotes"
-                        />
-                        <ListItem
-                            topic="This is a test topic"
-                            author="Thoth Team"
-                            date="March 7, 2023"
-                            upvotes="100 upvotes"
-                        />
+                        {!loading ? (
+                            feed.map((post) => (
+                                <ListItem
+                                    key={post.id}
+                                    topic={post.title}
+                                    author={post.username}
+                                    date="test date"
+                                    upvotes={
+                                        post.upvotes > 1
+                                            ? `${post.upvotes} upvotes`
+                                            : `${post.upvotes} upvote`
+                                    }
+                                />
+                            ))
+                        ) : (
+                            // ChakraUI Skeleton
+                            <Stack px={10} mb={3} display="flex">
+                                <SkeletonCircle size="10" />
+                                <Skeleton height="20px" />
+                                <Skeleton height="20px" />
+                            </Stack>
+                        )}
                     </Box>
                 </Box>
             </Container>

@@ -2,7 +2,7 @@ import { Box, Avatar, Badge, Divider } from "@chakra-ui/react";
 const ListItem = ({ topic, author, date, upvotes }) => {
     return (
         <Box display="flex" flexDirection="row" px={10} mt={5} mb={3}>
-            <Avatar src="https://bit.ly/dan-abramov" />
+            <Avatar src="https://a.ppy.sh" />
             <Box
                 display="flex"
                 flexDirection="column"

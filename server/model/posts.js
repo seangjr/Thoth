@@ -1,13 +1,16 @@
 const connection = require("../db");
 module.exports.getPosts = () => {
     return new Promise((resolve, reject) => {
-        connection.query("SELECT * FROM posts", (err, results) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(results);
-            }
-        });
+        connection.query(
+            "SELECT posts.id, posts.title, posts.content, posts.user_id, posts.upvotes, posts.created_at, users.username FROM posts INNER JOIN users ON posts.user_id = users.id",
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
     });
 };
 
