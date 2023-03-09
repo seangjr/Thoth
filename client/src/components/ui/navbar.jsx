@@ -25,7 +25,7 @@ import Logo from "../../assets/tlg.png";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
@@ -39,17 +39,12 @@ const Navbar = () => {
         if (window.location.pathname !== "/feed") {
             navigate("/feed");
         }
-        if (e.target.value === "") {
-            // eslint-disable-next-line no-restricted-globals
-            history.pushState(null, null, `/feed`);
-        } else {
-            // eslint-disable-next-line no-restricted-globals
-            history.pushState(
-                null,
-                null,
-                `/feed?search=${e.target.value.toLowerCase()}`,
-            );
-        }
+        // send input to feed
+        window.dispatchEvent(
+            new CustomEvent("search", {
+                detail: e.target.value,
+            }),
+        );
     };
     const handleLogout = () => {
         localStorage.clear();

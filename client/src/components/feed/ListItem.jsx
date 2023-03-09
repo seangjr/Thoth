@@ -25,6 +25,7 @@ const ListItem = ({ topic, author, date, upvotes, tags }) => {
                         cursor: "pointer",
                         textDecor: "underline",
                     }}
+                    transition="0.2s ease"
                 >
                     {topic}
                 </Box>
@@ -44,6 +45,7 @@ const ListItem = ({ topic, author, date, upvotes, tags }) => {
                             cursor: "pointer",
                             textDecor: "underline",
                         }}
+                        transition="0.2s ease"
                     >
                         {author}
                     </Box>
@@ -65,12 +67,12 @@ const ListItem = ({ topic, author, date, upvotes, tags }) => {
                     <Badge
                         h={5}
                         bg="#0CC5FF"
-                        color="#FFF"
                         _hover={{
                             cursor: "pointer",
                             textDecor: "underline",
                         }}
                         key={tag}
+                        borderRadius={8}
                     >
                         {tag}
                     </Badge>

@@ -15,16 +15,22 @@ const Feed = () => {
     // Get the user from the AuthContext.
     const user = useAuth();
     const [feed, setFeed] = useState([]);
+    const [prevFeed, setPrevFeed] = useState([]);
     const [loading, setLoading] = useState(true);
     const fetchFeed = () => {
         axios
             .get("http://localhost:5000/api/posts")
             .then((res) => {
                 setFeed(res.data);
+                setPrevFeed(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
+    };
+    const randomPercent = () => {
+        // return a random percentage from 70 to 100
+        return `${Math.floor(Math.random() * (100 - 70 + 1) + 70)}%`;
     };
     const convertDate = (dateString) => {
         return new Date(dateString).toLocaleDateString("en-US", {
@@ -39,6 +45,22 @@ const Feed = () => {
     useEffect(() => {
         setLoading(false);
     }, [feed]);
+    // get the search query from the custom event
+    useEffect(() => {
+        const searchHandler = (e) => {
+            const query = e.detail;
+
+            setFeed(
+                prevFeed.filter((post) =>
+                    post.title.toLowerCase().includes(query.toLowerCase()),
+                ),
+            );
+
+            console.log(query);
+        };
+        window.addEventListener("search", searchHandler);
+        return () => window.removeEventListener("search", searchHandler);
+    });
     return user ? (
         <Box>
             <Container
@@ -99,7 +121,7 @@ const Feed = () => {
                                         post.created_at.split("T")[0],
                                     )}
                                     upvotes={
-                                        post.upvotes > 1
+                                        post.upvotes !== 1
                                             ? `${post.upvotes} upvotes`
                                             : `${post.upvotes} upvote`
                                     }
@@ -111,28 +133,43 @@ const Feed = () => {
                             <Box opacity={0.3}>
                                 <Stack px={10} mb={3} mt={2} display="flex">
                                     <SkeletonCircle size="10" />
-                                    <Skeleton height="20px" />
-                                    <Skeleton height="20px" />
-                                </Stack>
-                                <Stack px={10} mb={3} display="flex">
-                                    <SkeletonCircle size="10" />
-                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" w={randomPercent} />
                                     <Skeleton height="20px" />
                                 </Stack>
                                 <Stack px={10} mb={3} display="flex">
                                     <SkeletonCircle size="10" />
                                     <Skeleton height="20px" />
+                                    <Skeleton height="20px" w={randomPercent} />
+                                </Stack>
+                                <Stack px={10} mb={3} mt={2} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" w={randomPercent} />
                                     <Skeleton height="20px" />
                                 </Stack>
                                 <Stack px={10} mb={3} display="flex">
                                     <SkeletonCircle size="10" />
                                     <Skeleton height="20px" />
+                                    <Skeleton height="20px" w={randomPercent} />
+                                </Stack>
+                                <Stack px={10} mb={3} mt={2} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" w={randomPercent} />
                                     <Skeleton height="20px" />
                                 </Stack>
                                 <Stack px={10} mb={3} display="flex">
                                     <SkeletonCircle size="10" />
                                     <Skeleton height="20px" />
+                                    <Skeleton height="20px" w={randomPercent} />
+                                </Stack>
+                                <Stack px={10} mb={3} mt={2} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" w={randomPercent} />
                                     <Skeleton height="20px" />
+                                </Stack>
+                                <Stack px={10} mb={3} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" w={randomPercent} />
                                 </Stack>
                             </Box>
                         )}
