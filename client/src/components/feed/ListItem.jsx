@@ -1,5 +1,12 @@
 import { Box, Avatar, Badge, Divider } from "@chakra-ui/react";
-const ListItem = ({ topic, author, date, upvotes }) => {
+import { useEffect } from "react";
+const ListItem = ({ topic, author, date, upvotes, tags }) => {
+    const tagsArr = [];
+    if (tags) {
+        tags.split(" ").forEach((tag) => {
+            tagsArr.push(tag);
+        });
+    }
     return (
         <Box display="flex" flexDirection="row" px={10} mt={5} mb={3}>
             <Avatar src="https://a.ppy.sh" />
@@ -54,17 +61,20 @@ const ListItem = ({ topic, author, date, upvotes }) => {
                     base: "hidden",
                 }}
             >
-                <Badge
-                    h={5}
-                    bg="#0CC5FF"
-                    color="#FFF"
-                    _hover={{
-                        cursor: "pointer",
-                        textDecor: "underline",
-                    }}
-                >
-                    #Test
-                </Badge>
+                {tagsArr.map((tag) => (
+                    <Badge
+                        h={5}
+                        bg="#0CC5FF"
+                        color="#FFF"
+                        _hover={{
+                            cursor: "pointer",
+                            textDecor: "underline",
+                        }}
+                        key={tag}
+                    >
+                        {tag}
+                    </Badge>
+                ))}
             </Box>
         </Box>
     );

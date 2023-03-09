@@ -26,6 +26,13 @@ const Feed = () => {
                 console.log(err);
             });
     };
+    const convertDate = (dateString) => {
+        return new Date(dateString).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    };
     useEffect(() => {
         fetchFeed();
     }, []);
@@ -88,21 +95,46 @@ const Feed = () => {
                                     key={post.id}
                                     topic={post.title}
                                     author={post.username}
-                                    date="test date"
+                                    date={convertDate(
+                                        post.created_at.split("T")[0],
+                                    )}
                                     upvotes={
                                         post.upvotes > 1
                                             ? `${post.upvotes} upvotes`
                                             : `${post.upvotes} upvote`
                                     }
+                                    tags={post.tags}
                                 />
                             ))
                         ) : (
                             // ChakraUI Skeleton
-                            <Stack px={10} mb={3} display="flex">
-                                <SkeletonCircle size="10" />
-                                <Skeleton height="20px" />
-                                <Skeleton height="20px" />
-                            </Stack>
+                            <Box opacity={0.3}>
+                                <Stack px={10} mb={3} mt={2} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" />
+                                </Stack>
+                                <Stack px={10} mb={3} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" />
+                                </Stack>
+                                <Stack px={10} mb={3} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" />
+                                </Stack>
+                                <Stack px={10} mb={3} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" />
+                                </Stack>
+                                <Stack px={10} mb={3} display="flex">
+                                    <SkeletonCircle size="10" />
+                                    <Skeleton height="20px" />
+                                    <Skeleton height="20px" />
+                                </Stack>
+                            </Box>
                         )}
                     </Box>
                 </Box>

@@ -55,7 +55,13 @@ ALTER TABLE `users` ADD `image` BLOB NULL AFTER `display_name`;
 -- ADD BIO IN USERS TABLE
 ALTER TABLE `users` ADD `bio` TEXT NULL AFTER `image`;
 
--- ALTER BIO TYPE TO VARCHAR
-ALTER TABLE `users` MODIFY `bio` VARCHAR(255) NULL;
+-- ADD TAG TO POSTS TABLE
+ALTER TABLE `posts` ADD `tag` VARCHAR(255) NOT NULL AFTER `content`;
+
+-- delete role column from posts table
+ALTER TABLE `posts` DROP `role`;
+
+-- delete all the posts
+DELETE FROM `posts`;
 
 SHOW TABLES;
