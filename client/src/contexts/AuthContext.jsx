@@ -12,8 +12,15 @@ const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const toast = useToast();
     const [loading, setLoading] = useState(true);
-    const setUser = (user) => {
-        setState(user);
+    const setUser = ({ id, username, role, display_name, image, bio }) => {
+        setState({
+            id,
+            username,
+            role,
+            display_name,
+            image,
+            bio,
+        });
     };
     const init = {
         id: null,

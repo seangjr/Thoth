@@ -1,8 +1,3 @@
-/* 
-TODO:
--Add breakpoints for different devices.
-*/
-
 import {
     Box,
     Heading,
@@ -11,16 +6,14 @@ import {
     Button,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Input,
     Textarea,
     Spinner,
     useToast,
 } from "@chakra-ui/react";
-import { AuthContext, useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { HiOutlineUpload } from "react-icons/hi";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { MD5 } from "crypto-js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -41,15 +34,30 @@ const EditProfile = () => {
                 password: MD5(data.password).toString(), // MD5 hash the password
             })
             .then((res) => {
-                toast({
-                    title: "Profile updated.",
-                    description: "Your profile has been updated.",
-                    status: "success",
-                    duration: 9000,
-                    isClosable: true,
-                    position: "top",
-                });
-                user.setUser(res.data);
+                axios
+                    .post("http://localhost:5000/api/users/login", {
+                        // relog the user for a new token
+                        email: res.data.email,
+                        password: MD5(data.password).toString(),
+                    })
+                    .then((res) => {
+                        localStorage.setItem("token", res.data.token);
+                        localStorage.setItem("user", res.data.id);
+                        toast({
+                            title: "Profile updated successfully.",
+                            description: "Your page will reload shortly.",
+                            status: "success",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top",
+                        });
+                        setTimeout(() => {
+                            navigate(0);
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             })
             .catch((err) => {
                 toast({
@@ -65,9 +73,6 @@ const EditProfile = () => {
     const handleUpload = (e) => {
         e.preventDefault();
     };
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
     return user ? (
         <Box
             display="flex"
@@ -141,7 +146,11 @@ const EditProfile = () => {
                         <br />
                         <form onSubmit={handleSubmit}>
                             <FormControl isRequired>
-                                <FormLabel fontSize="sm" color="#fff">
+                                <FormLabel
+                                    fontSize="sm"
+                                    color="#fff"
+                                    requiredIndicator={false}
+                                >
                                     Username
                                 </FormLabel>
                                 <Input
@@ -150,6 +159,7 @@ const EditProfile = () => {
                                     color="#fff"
                                     name="username"
                                     onChange={(e) => handleChange(e)}
+                                    required={false}
                                 />
                                 <FormLabel
                                     fontSize="sm"
