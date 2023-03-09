@@ -7,7 +7,7 @@ module.exports.getPosts = (res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -19,7 +19,7 @@ module.exports.getPost = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -31,7 +31,7 @@ module.exports.getPostByUser = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -43,20 +43,20 @@ module.exports.createPost = (req, res) => {
             res.status(201).json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
 module.exports.updatePost = (req, res) => {
-    const { id, title, content, user_id } = req.body;
-    // make everything else except id optional
+    const { id } = req.params;
+    const { title, content, user_id } = req.body;
     postsModel
         .updatePost(id, title, content, user_id)
         .then((result) => {
             res.status(200).json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -68,6 +68,6 @@ module.exports.deletePost = (req, res) => {
             res.status(200).json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };

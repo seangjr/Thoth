@@ -62,8 +62,9 @@ module.exports.createPost = (title, content, user_id) => {
 module.exports.updatePost = (id, title, content, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE posts SET COALESCE(title, ?), COALESCE(content, ?), COALESCE(user_id, ?) WHERE id = ? AND user_id = ?",
-            [(title, content, id, user_id)],
+            "UPDATE posts SET title = COALESCE(?, title), content = COALESCE(?, content) WHERE id = ? AND user_id = ?"[
+                (title, content, id, user_id)
+            ],
             (err, results) => {
                 if (err) {
                     reject(err);

@@ -3,24 +3,37 @@ import { useContext, useState, useEffect, createContext } from "react";
 import { Box, Container, Spinner, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext({});
+const AuthContext = createContext({
+    user: null,
+    setUser: () => {},
+});
 
 const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const toast = useToast();
-    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const setUser = (user) => {
+        setState(user);
+    };
+    const init = {
+        id: null,
+        username: null,
+        role: null,
+        display_name: null,
+        image: null,
+        bio: null,
+    };
+    const [state, setState] = useState(init);
     const fetchUser = async () => {
         try {
             axios.defaults.headers.common[
                 "Authorization"
             ] = `Bearer ${localStorage.getItem("token")}`;
             const {
-                data: { id, username, role },
+                data: { id, username, role, display_name, image, bio },
             } = await axios.get("http://localhost:5000/api/users/verify");
-            setUser({ id, username, role });
+            setUser({ id, username, role, display_name, image, bio });
         } catch {
-            setUser(null);
             toast({
                 title: "Unauthorized",
                 description: "You are not logged in.",
@@ -37,10 +50,10 @@ const AuthProvider = ({ children }) => {
     }, []);
     useEffect(() => {
         setLoading(false);
-    }, [user]);
+    }, [state]);
 
     return loading === false ? (
-        <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={state}>{children}</AuthContext.Provider>
     ) : (
         <Box>
             <Container
@@ -49,7 +62,7 @@ const AuthProvider = ({ children }) => {
                 alignItems="center"
                 justifyContent="center"
                 maxW="container.lg"
-                centerContent
+                bg="#23262C"
                 h="100vh"
                 p={4}
             >

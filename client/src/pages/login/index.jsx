@@ -31,11 +31,7 @@ const Login = () => {
             .then((res) => {
                 localStorage.setItem("token", res.data.token); // Store the token in localStorage
                 localStorage.setItem("user", res.data.id); // Store the user ID in localStorage
-                navigate("/feed", {
-                    state: {
-                        username: res.data.username,
-                    },
-                }); // Navigate to the feed
+                navigate("/feed"); // Navigate to the feed
             })
             .catch((err) => {
                 toast({

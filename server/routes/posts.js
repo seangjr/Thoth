@@ -8,7 +8,7 @@ router.get("/", controller.getPosts);
 router.get("/:id", controller.getPost);
 router.get("/user/:id", controller.getPostByUser);
 router.post("/", loggedIn, controller.createPost);
-router.put("/", loggedIn, controller.updatePost);
+router.put("/:id", loggedIn, controller.updatePost);
 router.delete("/", loggedIn, controller.deletePost);
 
 module.exports = router;

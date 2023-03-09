@@ -59,32 +59,27 @@ module.exports.registerUser = (username, email, password) => {
     });
 };
 
-module.exports.updateUser = (id, username, email) => {
+module.exports.updateUser = (id, username, display_name, bio, password) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE users SET COALESCE(username, ?), COALESCE(email, ?) WHERE id = ?",
-            [(username, email, id)],
+            "UPDATE users SET username = COALESCE(?, username), display_name = COALESCE(?, display_name), bio = COALESCE(?, bio) WHERE id = ? AND password = ?",
+            [username, display_name, bio, id, password],
             (err, results) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(results);
-                }
-            },
-        );
-    });
-};
-
-module.exports.updateUserPassword = (id, newPassword, oldPassword) => {
-    return new Promise((resolve, reject) => {
-        connection.query(
-            "UPDATE users SET COALESCE(password, ?) WHERE id = ? AND password = ?",
-            [(newPassword, id, oldPassword)],
-            (err, results) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results);
+                    // return the new user data
+                    connection.query(
+                        "SELECT * FROM users WHERE id = ?",
+                        [id],
+                        (err, results) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(results);
+                            }
+                        },
+                    );
                 }
             },
         );

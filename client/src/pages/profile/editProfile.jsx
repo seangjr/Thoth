@@ -15,21 +15,68 @@ import {
     FormHelperText,
     Input,
     Textarea,
+    Spinner,
+    useToast,
 } from "@chakra-ui/react";
+import { AuthContext, useAuth } from "../../contexts/AuthContext";
 import { HiOutlineUpload } from "react-icons/hi";
+import { useContext, useEffect, useState } from "react";
+import { MD5 } from "crypto-js";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-    return (
+    const user = useAuth();
+    const toast = useToast();
+    const navigate = useNavigate();
+    const [data, setData] = useState({});
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios
+            .put(`http://localhost:5000/api/users/update/${user.id}`, {
+                ...data,
+                password: MD5(data.password).toString(), // MD5 hash the password
+            })
+            .then((res) => {
+                toast({
+                    title: "Profile updated.",
+                    description: "Your profile has been updated.",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+                user.setUser(res.data);
+            })
+            .catch((err) => {
+                toast({
+                    title: "An error occurred while updating your profile.",
+                    description: err.response.data,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+            });
+    };
+    const handleUpload = (e) => {
+        e.preventDefault();
+    };
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
+    return user ? (
         <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
             bgColor="#23262F"
-            overflow="hidden"
-            h="100vh"
         >
-            <Box w="70%">
+            <Box w="70%" mt={20}>
                 <Box id="heading" mb="35px" mt="3em">
                     <Heading mb="10px" color="#FFF">
                         Edit Profile
@@ -42,10 +89,19 @@ const EditProfile = () => {
                 <Box
                     id="content"
                     display="flex"
-                    flexDirection="row"
+                    flexDirection={{ base: "column", md: "row" }}
                     justifyContent="between"
                 >
-                    <Box id="image" display="flex" flexDirection="column">
+                    <Box
+                        id="image"
+                        display="flex"
+                        flexDirection="column"
+                        w={{
+                            base: "100%",
+                            md: "50%",
+                        }}
+                        mb={{ base: "2rem", md: "0" }}
+                    >
                         <Box
                             display="flex"
                             flexDirection="row"
@@ -55,7 +111,7 @@ const EditProfile = () => {
                                 <Image
                                     borderRadius="full"
                                     boxSize="120px"
-                                    src="https://bit.ly/dan-abramov"
+                                    src="https://a.ppy.sh"
                                     alt="Dan Abramov"
                                 />
                             </Box>
@@ -78,33 +134,81 @@ const EditProfile = () => {
                             </Box>
                         </Box>
                     </Box>
-                    <Box id="details" w="50%">
+                    <Box id="details" w={{ base: "100%", md: "50%" }}>
                         <Heading fontSize="md" color="#fff">
                             Account Info
                         </Heading>
                         <br />
-                        <FormControl isRequired>
-                            <FormLabel fontSize="sm" color="#fff">
-                                Username
-                            </FormLabel>
-                            <Input mb="2rem" type="text" color="#fff" />
-                            <FormLabel fontSize="sm" color="#fff">
-                                Display Name
-                            </FormLabel>
-                            <Input mb="2rem" type="text" color="#fff" />
-                            <FormLabel fontSize="sm" color="#fff">
-                                Bio
-                            </FormLabel>
-                            <Textarea
-                                mb="2rem"
-                                color="#fff"
-                                placeholder="Tell everyone more about yourself"
-                            ></Textarea>
-                        </FormControl>
-                        <Button>Update Profile</Button>
+                        <form onSubmit={handleSubmit}>
+                            <FormControl isRequired>
+                                <FormLabel fontSize="sm" color="#fff">
+                                    Username
+                                </FormLabel>
+                                <Input
+                                    mb="2rem"
+                                    type="text"
+                                    color="#fff"
+                                    name="username"
+                                    onChange={(e) => handleChange(e)}
+                                />
+                                <FormLabel
+                                    fontSize="sm"
+                                    color="#fff"
+                                    requiredIndicator={false}
+                                >
+                                    Display Name
+                                </FormLabel>
+                                <Input
+                                    mb="2rem"
+                                    type="text"
+                                    color="#fff"
+                                    name="display_name"
+                                    onChange={(e) => handleChange(e)}
+                                    required={false}
+                                />
+                                <FormLabel
+                                    fontSize="sm"
+                                    color="#fff"
+                                    requiredIndicator={false}
+                                >
+                                    Bio
+                                </FormLabel>
+                                <Textarea
+                                    mb="2rem"
+                                    color="#fff"
+                                    placeholder="Tell everyone more about yourself"
+                                    name="bio"
+                                    onChange={(e) => handleChange(e)}
+                                    required={false}
+                                ></Textarea>
+                                <FormLabel fontSize="sm" color="#fff">
+                                    Password
+                                </FormLabel>
+                                <Input
+                                    mb="2rem"
+                                    type="password"
+                                    color="#fff"
+                                    name="password"
+                                    onChange={(e) => handleChange(e)}
+                                />
+                            </FormControl>
+                            <Button type="submit">Update Profile</Button>
+                        </form>
                     </Box>
                 </Box>
             </Box>
+        </Box>
+    ) : (
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            bgColor="#23262F"
+            overflow="hidden"
+            h="100vh"
+        >
+            <Spinner />
         </Box>
     );
 };

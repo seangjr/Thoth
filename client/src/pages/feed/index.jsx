@@ -1,5 +1,5 @@
 import { Box, Container, Heading, Spinner } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ListItem from "../../components/feed/ListItem";
 const Feed = () => {

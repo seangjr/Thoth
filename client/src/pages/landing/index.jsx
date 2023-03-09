@@ -2,9 +2,10 @@ import { Button, Heading, Text, Box } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useEffect } from "react";
 
 const Landing = () => {
-    const user = useAuth();
+    const user = localStorage.getItem("token");
     return (
         <Box
             display="flex"

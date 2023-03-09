@@ -49,7 +49,7 @@ module.exports.registerUser = (req, res) => {
                         res.status(201).json(result);
                     })
                     .catch((err) => {
-                        res.status(500).end(err);
+                        res.status(500).end(err.toString());
                     });
             }
         });
@@ -63,7 +63,7 @@ module.exports.getUsers = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -75,33 +75,25 @@ module.exports.getUser = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
 module.exports.updateUser = (req, res) => {
     const { id } = req.params;
-    const { username, email } = req.body;
+    const { username, display_name, bio, password } = req.body;
     userModel
-        .updateUser(id, username, email)
+        .updateUser(id, username, display_name, bio, password)
         .then((result) => {
-            res.json(result);
+            if (password !== result[0].password) {
+                // if password is changed, the token is invalid
+                res.status(401).end("Invalid credentials");
+            } else {
+                res.status(200).json(result[0]);
+            }
         })
         .catch((err) => {
-            res.status(500).end(err);
-        });
-};
-
-module.exports.updateUserPassword = (req, res) => {
-    const { id } = req.params;
-    const { newPassword, oldPassword } = req.body;
-    userModel
-        .updateUserPassword(id, newPassword, oldPassword)
-        .then((result) => {
-            res.json(result);
-        })
-        .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -113,6 +105,6 @@ module.exports.deleteUser = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
