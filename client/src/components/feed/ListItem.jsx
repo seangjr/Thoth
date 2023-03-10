@@ -1,6 +1,6 @@
-import { Box, Avatar, Badge, Divider } from "@chakra-ui/react";
-import { useEffect } from "react";
-const ListItem = ({ topic, author, date, upvotes, tags }) => {
+import { Box, Avatar, Badge, Text } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+const ListItem = ({ id, topic, author, date, upvotes, tags }) => {
     const tagsArr = [];
     if (tags) {
         tags.split(" ").forEach((tag) => {
@@ -18,16 +18,23 @@ const ListItem = ({ topic, author, date, upvotes, tags }) => {
                 color="#FFF"
                 ml={5}
             >
-                <Box
-                    fontWeight="bold"
-                    _hover={{
-                        color: "#0CC5FF",
-                        cursor: "pointer",
-                        textDecor: "underline",
-                    }}
-                    transition="0.2s ease"
-                >
-                    {topic}
+                <Box fontWeight="bold">
+                    <Text
+                        as={Link}
+                        to="/post"
+                        state={{
+                            id: id,
+                        }}
+                        w="fit-content"
+                        _hover={{
+                            color: "#0CC5FF",
+                            cursor: "pointer",
+                            textDecor: "underline",
+                        }}
+                        transition="0.2s ease"
+                    >
+                        {topic}
+                    </Text>
                 </Box>
                 <Box
                     display="flex"
@@ -47,7 +54,19 @@ const ListItem = ({ topic, author, date, upvotes, tags }) => {
                         }}
                         transition="0.2s ease"
                     >
-                        {author}
+                        <Text
+                            w="fit-content"
+                            _hover={{
+                                color: "#0CC5FF",
+                                cursor: "pointer",
+                                textDecor: "underline",
+                            }}
+                            transition="0.2s ease"
+                            as={Link}
+                            to={`/profile/${author}`}
+                        >
+                            {author}
+                        </Text>
                     </Box>
                     <Box mr={2} color="gray.500">
                         {date}

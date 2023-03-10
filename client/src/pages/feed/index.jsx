@@ -43,7 +43,9 @@ const Feed = () => {
         fetchFeed();
     }, []);
     useEffect(() => {
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 500); // set a delay to simulate loading
     }, [feed]);
     // get the search query from the custom event
     useEffect(() => {
@@ -115,6 +117,7 @@ const Feed = () => {
                             feed.map((post) => (
                                 <ListItem
                                     key={post.id}
+                                    id={post.id}
                                     topic={post.title}
                                     author={post.username}
                                     date={convertDate(

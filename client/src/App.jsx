@@ -9,6 +9,7 @@ import Feed from "./pages/feed";
 import Contact from "./pages/contact";
 import EditProfile from "./pages/profile/editProfile";
 import Profile from "./pages/profile";
+import Post from "./pages/post";
 
 //layouts
 import Root from "./layouts/root";
@@ -22,6 +23,7 @@ const App = () => {
                     <Route path="feed" element={<Feed />} />
                     <Route path="profile/edit" element={<EditProfile />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="post" element={<Post />} />
                 </Route>
                 <Route path="/about" element={<About />} />
                 <Route path="/register" element={<Register />} />
