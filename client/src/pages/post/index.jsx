@@ -1,8 +1,31 @@
-import { Avatar, Badge, Box, Container, Image, Text } from "@chakra-ui/react";
+import {
+    Avatar,
+    Badge,
+    Box,
+    Button,
+    Container,
+    Image,
+    Text,
+} from "@chakra-ui/react";
+import CommentEditor from "../../components/post/CommentEditor";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const Post = () => {
     const location = useLocation();
+    const [showCommentEditor, toggleCommentEditor] = useState(false);
+    const [editorMode, setEditorMode] = useState("reply");
+    const handleClick = (e) => {
+        if (e.target.value === "reply") {
+            setEditorMode("reply");
+            toggleCommentEditor(!showCommentEditor);
+        }
+
+        if (e.target.value === "edit") {
+            setEditorMode("edit");
+            toggleCommentEditor(!showCommentEditor);
+        }
+    };
     return (
         <Box display="flex" flexDir="row" bg="#23262F" p={10}>
             <Container
@@ -63,6 +86,7 @@ const Post = () => {
                     <Text color="white" fontSize="xl" fontWeight="bold">
                         Comments
                     </Text>
+                    <CommentEditor />
 
                     <Box display="flex" flexDir="row" mt="4">
                         <Avatar src="https://a.ppy.sh" mr={3} />
@@ -83,27 +107,22 @@ const Post = () => {
                             <Box display="flex" flexDir="row" mt="2">
                                 <Text
                                     color="white"
+                                    p={0}
+                                    bg="none"
                                     fontSize="md"
                                     fontWeight="bold"
                                     mr="2"
+                                    cursor="pointer"
+                                    as={Button}
+                                    _hover={{
+                                        color: "blue.100",
+                                        bg: "none",
+                                    }}
+                                    transition={"0.2s ease"}
+                                    onClick={handleClick}
+                                    value="reply"
                                 >
                                     Reply
-                                </Text>
-                                <Text
-                                    color="white"
-                                    fontSize="md"
-                                    fontWeight="bold"
-                                    mr="2"
-                                >
-                                    Upvote
-                                </Text>
-                                <Text
-                                    color="white"
-                                    fontSize="md"
-                                    fontWeight="bold"
-                                    mr="2"
-                                >
-                                    Downvote
                                 </Text>
                             </Box>
                         </Box>
