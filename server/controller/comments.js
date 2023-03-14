@@ -22,10 +22,22 @@ module.exports.getComment = (req, res) => {
         });
 };
 
-module.exports.createComment = (req, res) => {
-    const { post_id, user_id, parent_id, content } = req.body;
+module.exports.getCommentsByPost = (req, res) => {
+    const { id } = req.params;
     commentsModel
-        .createComment(post_id, user_id, parent_id, content)
+        .getCommentsByPost(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.createComment = (req, res) => {
+    const { post_id, user_id, parent_id, comment } = req.body;
+    commentsModel
+        .createComment(post_id, user_id, parent_id, comment)
         .then((result) => {
             res.status(201).json(result);
         })

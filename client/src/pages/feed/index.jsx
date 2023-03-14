@@ -43,9 +43,7 @@ const Feed = () => {
         fetchFeed();
     }, []);
     useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 500); // set a delay to simulate loading
+        setLoading(false);
     }, [feed]);
     // get the search query from the custom event
     useEffect(() => {
@@ -129,6 +127,7 @@ const Feed = () => {
                                             : `${post.upvotes} upvote`
                                     }
                                     tags={post.tags}
+                                    content={post.content}
                                 />
                             ))
                         ) : (
