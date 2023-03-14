@@ -27,11 +27,27 @@ module.exports.getComment = (id) => {
     });
 };
 
-module.exports.createComment = (post_id, user_id, parent_id, content) => {
+module.exports.getCommentsByPost = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "INSERT INTO comments (post_id, user_id, parent_id, content) VALUES (?, COALESCE(?, parent_id), ?)",
-            [post_id, user_id, parent_id, content],
+            "SELECT comments.id, comments.comment as content, comments.upvotes, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE post_id = ?",
+            [id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.createComment = (post_id, user_id, parent_id, comment) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "INSERT INTO comments (post_id, user_id, parent_id, comment) VALUES (?, ?, ?, ?)",
+            [post_id, user_id, parent_id, comment],
             (err, results) => {
                 if (err) {
                     reject(err);
