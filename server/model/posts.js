@@ -94,3 +94,35 @@ module.exports.deletePost = (id, user_id) => {
         );
     });
 };
+
+module.exports.upvote = (id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "UPDATE posts SET upvotes = upvotes + 1 WHERE id = ?",
+            [id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.downvote = (id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "UPDATE posts SET upvotes = upvotes - 1 WHERE id = ?",
+            [id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};

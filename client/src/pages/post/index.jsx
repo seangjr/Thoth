@@ -1,31 +1,10 @@
-import {
-    Avatar,
-    Badge,
-    Box,
-    Button,
-    Container,
-    Image,
-    Text,
-} from "@chakra-ui/react";
+import { Badge, Box, Container, Image, Text } from "@chakra-ui/react";
 import CommentEditor from "../../components/post/CommentEditor";
-import { useState } from "react";
+import CommentsProvider from "../../components/post/useComments";
 import { useLocation } from "react-router-dom";
 
 const Post = () => {
     const location = useLocation();
-    const [showCommentEditor, toggleCommentEditor] = useState(false);
-    const [editorMode, setEditorMode] = useState("reply");
-    const handleClick = (e) => {
-        if (e.target.value === "reply") {
-            setEditorMode("reply");
-            toggleCommentEditor(!showCommentEditor);
-        }
-
-        if (e.target.value === "edit") {
-            setEditorMode("edit");
-            toggleCommentEditor(!showCommentEditor);
-        }
-    };
     return (
         <Box display="flex" flexDir="row" bg="#23262F" p={10}>
             <Container
@@ -82,52 +61,14 @@ const Post = () => {
                     </Text>
                 </Box>
                 {/* comments section */}
-                <Box display="flex" flexDir="column" mt="4">
-                    <Text color="white" fontSize="xl" fontWeight="bold">
-                        Comments
-                    </Text>
-                    <CommentEditor />
-
-                    <Box display="flex" flexDir="row" mt="4">
-                        <Avatar src="https://a.ppy.sh" mr={3} />
-                        <Box display="flex" flexDir="column">
-                            <Text color="white" fontSize="md" fontWeight="bold">
-                                Username
-                            </Text>
-                            <Text color="gray.500" fontSize="sm">
-                                Date
-                            </Text>
-
-                            <Text color="white" fontSize="md" mt="2">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Sed euismod, nisl nec aliquam
-                                aliquam, nunc nisl condimentum nunc, nec
-                            </Text>
-
-                            <Box display="flex" flexDir="row" mt="2">
-                                <Text
-                                    color="white"
-                                    p={0}
-                                    bg="none"
-                                    fontSize="md"
-                                    fontWeight="bold"
-                                    mr="2"
-                                    cursor="pointer"
-                                    as={Button}
-                                    _hover={{
-                                        color: "blue.100",
-                                        bg: "none",
-                                    }}
-                                    transition={"0.2s ease"}
-                                    onClick={handleClick}
-                                    value="reply"
-                                >
-                                    Reply
-                                </Text>
-                            </Box>
-                        </Box>
+                <CommentsProvider>
+                    <Box display="flex" flexDir="column" mt="4">
+                        <Text color="white" fontSize="xl" fontWeight="bold">
+                            Comments
+                        </Text>
+                        <CommentEditor />
                     </Box>
-                </Box>
+                </CommentsProvider>
             </Container>
         </Box>
     );

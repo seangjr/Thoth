@@ -11,4 +11,7 @@ router.post("/", loggedIn, controller.createPost);
 router.put("/:id", loggedIn, controller.updatePost);
 router.delete("/", loggedIn, controller.deletePost);
 
+router.put("/upvote/:id", loggedIn, controller.upvote);
+router.put("/downvote/:id", loggedIn, controller.downvote);
+
 module.exports = router;

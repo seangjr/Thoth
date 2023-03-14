@@ -6,7 +6,7 @@ module.exports.getComments = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
@@ -18,14 +18,14 @@ module.exports.getComment = (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            res.status(500).end(err);
+            res.status(500).end(err.toString());
         });
 };
 
 module.exports.createComment = (req, res) => {
-    const { post_id, user_id, content } = req.body;
+    const { post_id, user_id, parent_id, content } = req.body;
     commentsModel
-        .createComment(post_id, user_id, content)
+        .createComment(post_id, user_id, parent_id, content)
         .then((result) => {
             res.status(201).json(result);
         })
@@ -35,7 +35,7 @@ module.exports.createComment = (req, res) => {
             } else if (err.code === "MISSING_REQUIRED_FIELDS") {
                 res.status(400).end("Missing required fields");
             } else {
-                res.status(500).end(err);
+                res.status(500).end(err.toString());
             }
         });
 };
@@ -53,7 +53,31 @@ module.exports.deleteComment = (req, res) => {
                     "Cannot delete comment because it is referenced by another table",
                 );
             } else {
-                res.status(500).end(err);
+                res.status(500).end(err.toString());
             }
+        });
+};
+
+module.exports.upvote = (req, res) => {
+    const { id } = req.params;
+    commentsModel
+        .upvote(id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.downvote = (req, res) => {
+    const { id } = req.params;
+    commentsModel
+        .downvote(id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
         });
 };

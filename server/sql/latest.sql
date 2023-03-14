@@ -64,4 +64,8 @@ ALTER TABLE `posts` DROP `role`;
 -- delete all the posts
 DELETE FROM `posts`;
 
+-- add parent_id column to comments table
+ALTER TABLE `comments` ADD `parent_id` INT(11) NULL AFTER `comment`;
+ALTER TABLE `comments` ADD INDEX `parent_id_idx` (`parent_id`);
+
 SHOW TABLES;

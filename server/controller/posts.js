@@ -71,3 +71,27 @@ module.exports.deletePost = (req, res) => {
             res.status(500).end(err.toString());
         });
 };
+
+module.exports.upvote = (req, res) => {
+    const { id } = req.params;
+    postsModel
+        .upvote(id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.downvote = (req, res) => {
+    const { id } = req.params;
+    postsModel
+        .downvote(id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
