@@ -52,7 +52,18 @@ module.exports.createComment = (post_id, user_id, parent_id, comment) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(results);
+                    // return the new comment
+                    connection.query(
+                        "SELECT comments.id, comments.comment as content, comments.upvotes, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.id = ?",
+                        [results.insertId],
+                        (err, results) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(results);
+                            }
+                        },
+                    );
                 }
             },
         );
@@ -94,7 +105,7 @@ module.exports.upvote = (id) => {
 module.exports.downvote = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE comments SET downvotes = downvotes + 1 WHERE id = ?",
+            "UPDATE comments SET upvotes = upvotes - 1 WHERE id = ?",
             [id],
             (err, results) => {
                 if (err) {

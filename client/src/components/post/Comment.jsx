@@ -2,6 +2,7 @@ import { Box, Text, Avatar, Button, Flex, IconButton } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import CommentEditor from "./CommentEditor";
 import { useState } from "react";
+import axios from "axios";
 
 const Comment = ({
     id,
@@ -13,8 +14,8 @@ const Comment = ({
     date,
 }) => {
     const [showCommentEditor, toggleCommentEditor] = useState(false);
-    const [upvoted, setUpvoted] = useState(false);
-    const [downvoted, setDownvoted] = useState(false);
+    const [counterState, setCounterState] = useState("neutral");
+    const [upvoteCount, setUpvoteCount] = useState(upvotes);
     const [editorMode, setEditorMode] = useState("reply");
     const handleClick = (e) => {
         if (e.target.value === "reply") {
@@ -29,14 +30,32 @@ const Comment = ({
     };
 
     const handleUpvote = () => {
-        console.log("upvote");
-        setUpvoted(true);
-        setDownvoted(false);
+        if (counterState === "upvoted") return;
+        if (counterState === "downvoted") {
+            setCounterState("neutral");
+            setUpvoteCount(upvoteCount + 1);
+            // axios call to update upvote count
+            axios.put(`http://localhost:5000/api/comments/upvote/${id}`);
+            return;
+        }
+        setCounterState("upvoted");
+        setUpvoteCount(upvoteCount + 1);
+        // axios call to update upvote count
+        axios.put(`http://localhost:5000/api/comments/upvote/${id}`);
     };
 
     const handleDownvote = () => {
-        setDownvoted(true);
-        setUpvoted(false);
+        if (counterState === "downvoted") return;
+        if (counterState === "upvoted") {
+            setCounterState("neutral");
+            setUpvoteCount(upvoteCount - 1);
+            // axios call to update upvote count
+            axios.put(`http://localhost:5000/api/comments/downvote/${id}`);
+            return;
+        }
+        setCounterState("downvoted");
+        setUpvoteCount(upvoteCount - 1);
+        axios.put(`http://localhost:5000/api/comments/downvote/${id}`);
     };
 
     const renderCommentEditor = (editorMode) => {
@@ -76,8 +95,6 @@ const Comment = ({
                         color="white"
                         fontSize=".8rem"
                         bg="none"
-                        {...(upvoted && { color: "blue.100" })}
-                        {...(downvoted && { color: "gray.500" })}
                         onClick={handleUpvote}
                         _hover={{
                             color: "blue.100",
@@ -85,15 +102,13 @@ const Comment = ({
                         }}
                     />
                     <Text color="white" fontSize="sm" mx={4}>
-                        {upvotes}
+                        {upvoteCount}
                     </Text>
                     <IconButton
                         icon={<MinusIcon />}
                         color="white"
                         bg="none"
                         fontSize=".8rem"
-                        {...(downvoted && { color: "blue.100" })}
-                        {...(upvoted && { color: "gray.500" })}
                         onClick={handleDownvote}
                         _hover={{
                             color: "blue.100",

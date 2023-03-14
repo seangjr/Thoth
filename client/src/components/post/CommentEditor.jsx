@@ -1,5 +1,5 @@
 import { Box, Flex, Avatar, Textarea, Button, Text } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 const CommentEditor = ({
@@ -10,6 +10,8 @@ const CommentEditor = ({
     parentId,
     post_id,
     closeEditor,
+    onComment,
+    comments,
 }) => {
     const [commentText, setCommentText] = useState("");
     const user = useAuth();
@@ -21,6 +23,14 @@ const CommentEditor = ({
     const removeUsername = () => {
         return commentText.substring(replyingTo.length + 2);
     };
+
+    const handleOnComment = useCallback(
+        // run onComment function from parent component which is in post/index.jsx which is setComment
+        (comment) => {
+            onComment([...comments, comment]);
+        },
+        [onComment],
+    );
 
     const handleClick = () => {
         if (commentText === "") return;
@@ -37,12 +47,17 @@ const CommentEditor = ({
 
         //new comment
         if (isNewComment) {
-            axios.post("http://localhost:5000/api/comments", {
-                user_id: user.id,
-                post_id: post_id,
-                parent_id: parentId,
-                comment: commentText,
-            });
+            console.log(commentText);
+            axios
+                .post("http://localhost:5000/api/comments", {
+                    post_id: post_id,
+                    user_id: user.id,
+                    comment: commentText,
+                    parent_id: parentId,
+                })
+                .then((res) => {
+                    handleOnComment(res.data[0]);
+                });
         }
 
         setCommentText("");

@@ -22,7 +22,12 @@ const Post = () => {
                 `http://localhost:5000/api/comments/post/${location.state.post_id}`,
             )
             .then((res) => {
-                setComments(res.data);
+                // sort by upvotes
+                setComments(
+                    res.data.sort((a, b) => {
+                        return b.upvotes - a.upvotes;
+                    }),
+                );
             });
     };
     useEffect(() => {
@@ -97,6 +102,8 @@ const Post = () => {
                     <CommentEditor
                         isNewComment
                         post_id={location.state.post_id}
+                        onComment={setComments}
+                        comments={comments}
                     />
                     {!loading ? (
                         comments.map((comment) => (
