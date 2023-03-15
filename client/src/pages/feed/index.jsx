@@ -1,5 +1,6 @@
 import {
     Box,
+    Text,
     Container,
     Heading,
     Spinner,
@@ -8,9 +9,10 @@ import {
     SkeletonCircle,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import ListItem from "../../components/feed/ListItem";
-import axios from "axios";
 const Feed = () => {
     // Get the user from the AuthContext.
     const user = useAuth();
@@ -80,6 +82,27 @@ const Feed = () => {
                     <Heading color="#FFF" p={10}>
                         Welcome, {user.username}!
                     </Heading>
+                    {/* create post link */}
+                    <Text
+                        color="gray.500"
+                        px={10}
+                        mb={3}
+                        display="flex"
+                        flexDir="row"
+                    >
+                        Have something to contribute?&nbsp;
+                        <Link to="/post/create">
+                            <Text
+                                color="blue.100"
+                                _hover={{
+                                    color: "blue.300",
+                                }}
+                                transition="0.1s ease"
+                            >
+                                Create a post
+                            </Text>
+                        </Link>
+                    </Text>
                     <Box px={10}>
                         <Box
                             display="flex"

@@ -1,11 +1,19 @@
 import { Box, Text, Avatar, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import CommentEditor from "./CommentEditor";
 import Upvotes from "./Upvotes";
 
-const Comment = ({ id, parentId, content, user, replyingTo, date }) => {
+const Comment = ({
+    id,
+    parentId,
+    content,
+    user,
+    replyingTo,
+    date,
+    setCount,
+}) => {
     const [showCommentEditor, toggleCommentEditor] = useState(false);
     const [editorMode, setEditorMode] = useState("reply");
     const handleClick = (e) => {
@@ -36,6 +44,7 @@ const Comment = ({ id, parentId, content, user, replyingTo, date }) => {
                 <CommentEditor
                     id={id}
                     content={content}
+                    isUpdate
                     closeEditor={() => toggleCommentEditor(false)}
                 />
             );
@@ -70,7 +79,7 @@ const Comment = ({ id, parentId, content, user, replyingTo, date }) => {
                     </Text>
 
                     <Box display="flex" flexDir="row" mt="2">
-                        <Text
+                        {/* <Text
                             color="white"
                             p={0}
                             bg="none"
@@ -88,6 +97,46 @@ const Comment = ({ id, parentId, content, user, replyingTo, date }) => {
                             value="reply"
                         >
                             Reply
+                        </Text> */}
+                        {/* edit */}
+                        <Text
+                            color="white"
+                            p={0}
+                            bg="none"
+                            fontSize="md"
+                            fontWeight="bold"
+                            mr="2"
+                            cursor="pointer"
+                            as={Button}
+                            _hover={{
+                                color: "blue.100",
+                                bg: "none",
+                            }}
+                            transition={"0.2s ease"}
+                            onClick={handleClick}
+                            value="edit"
+                        >
+                            Edit
+                        </Text>
+                        {/* delete */}
+                        <Text
+                            color="white"
+                            p={0}
+                            bg="none"
+                            fontSize="md"
+                            fontWeight="bold"
+                            mr="2"
+                            cursor="pointer"
+                            as={Button}
+                            _hover={{
+                                color: "red.200",
+                                bg: "none",
+                            }}
+                            transition={"0.2s ease"}
+                            onClick={handleClick}
+                            value="delete"
+                        >
+                            Delete
                         </Text>
                     </Box>
                 </Box>

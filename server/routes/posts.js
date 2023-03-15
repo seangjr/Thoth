@@ -9,7 +9,7 @@ router.get("/:id", controller.getPost);
 router.get("/user/:id", controller.getPostByUser);
 router.post("/", loggedIn, controller.createPost);
 router.put("/:id", loggedIn, controller.updatePost);
-router.delete("/", loggedIn, controller.deletePost);
+router.delete("/:id/:user_id", loggedIn, controller.deletePost);
 
 router.get("/upvotes/:id", controller.checkUpvotes);
 router.get("/upvote/:post_id/:user_id", controller.checkUpvote);

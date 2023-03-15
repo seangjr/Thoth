@@ -7,8 +7,53 @@ import {
     Input,
     Text,
     Textarea,
+    useToast,
 } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
 const EditPost = () => {
+    const location = useLocation();
+    const toast = useToast();
+    const user = useAuth();
+    const navigate = useNavigate();
+    const [postDetails, setPostDetails] = useState({
+        title: location.state.title,
+        content: location.state.content,
+        tags: location.state.tags,
+    });
+    const handleSubmit = () => {
+        axios
+            .put(`http://localhost:5000/api/posts/${location.state.post_id}`, {
+                ...postDetails,
+                user_id: user.id,
+            })
+            .then((res) => {
+                console.log(res.data);
+                console.log(postDetails);
+                toast({
+                    title: "Post updated",
+                    description: "Your post has been updated successfully!",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+                navigate("/feed");
+            })
+            .catch(() => {
+                toast({
+                    title: "Error",
+                    description:
+                        "Something went wrong while updating your post",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+            });
+    };
     return (
         <Box
             bgColor="#23262F"
@@ -23,70 +68,65 @@ const EditPost = () => {
                 </Text>
             </Box>
             <Box mt="8">
-                <form>
-                    <FormControl isRequired>
-                        <FormLabel color="gray.400">Post title</FormLabel>
-                        <Box w={{ base: "100%", md: "50%" }}>
-                            <Input type="email" w="100%" color="#fff" />
-                        </Box>
-                    </FormControl>
-                    <FormControl mt="4" isRequired>
-                        <FormLabel color="gray.400">Post content</FormLabel>
-                        <Box w={{ base: "100%", md: "50%" }}>
-                            <Textarea
-                                placeholder="Type your message here..."
-                                placeholderTextColor="gray.400"
-                                h={{ base: "8rem", md: "10rem" }}
-                                w="100%"
-                                color="#fff"
-                            />
-                        </Box>
-                    </FormControl>
-                    <FormControl mt="4" isRequired>
-                        <FormLabel color="gray.400">Images</FormLabel>
-                        <Box w={{ base: "100%", md: "50%" }}>
-                            <Box
-                                borderWidth="1px"
-                                p="2"
-                                borderColor="gray.300"
-                                borderRadius="md"
-                                h={{ base: "8rem", md: "10rem" }}
-                            >
-                                <Input
-                                    type="file"
-                                    color="#fff"
-                                    onChange={(e) =>
-                                        console.log(e.target.files[0])
-                                    }
-                                    style={{ display: "none" }}
-                                />
-                            </Box>
-                        </Box>
-                    </FormControl>
-                    <Button
-                        mt="2"
-                        colorScheme="#23262F"
-                        size="md"
-                        variant="outline"
-                        sx={{ borderColor: "white", color: "white" }}
-                    >
-                        Upload
-                    </Button>
-                    <FormControl mt="4" isRequired>
-                        <FormLabel color="gray.400">Tags</FormLabel>
-                        <Box w={{ base: "100%", md: "50%" }}>
-                            <Input
-                                type="email"
-                                w="100%"
-                                color="#fff"
-                                placeholder="Separated by space"
-                            />
-                        </Box>
-                    </FormControl>
-                    <Button mt="4" colorScheme="blue" size="md">
-                        Update post
-                    </Button>
-                </form>
+                <FormControl isRequired>
+                    <FormLabel color="gray.400">Post title</FormLabel>
+                    <Box w={{ base: "100%", md: "50%" }}>
+                        <Input
+                            w="100%"
+                            color="#fff"
+                            value={postDetails.title}
+                            onChange={(e) =>
+                                setPostDetails({
+                                    ...postDetails,
+                                    title: e.target.value,
+                                })
+                            }
+                        />
+                    </Box>
+                </FormControl>
+                <FormControl mt="4" isRequired>
+                    <FormLabel color="gray.400">Post content</FormLabel>
+                    <Box w={{ base: "100%", md: "50%" }}>
+                        <Textarea
+                            placeholder="Type your message here..."
+                            h={{ base: "8rem", md: "10rem" }}
+                            w="100%"
+                            color="#fff"
+                            value={postDetails.content}
+                            onChange={(e) =>
+                                setPostDetails({
+                                    ...postDetails,
+                                    content: e.target.value,
+                                })
+                            }
+                        />
+                    </Box>
+                </FormControl>
+                <FormControl mt="4" isRequired>
+                    <FormLabel color="gray.400">Tags</FormLabel>
+                    <Box w={{ base: "100%", md: "50%" }}>
+                        <Input
+                            w="100%"
+                            color="#fff"
+                            placeholder="Separated by space"
+                            value={postDetails.tags}
+                            onChange={(e) =>
+                                setPostDetails({
+                                    ...postDetails,
+                                    tags: e.target.value,
+                                })
+                            }
+                        />
+                    </Box>
+                </FormControl>
+                <Button
+                    mt="4"
+                    colorScheme="blue"
+                    size="md"
+                    onClick={handleSubmit}
+                >
+                    Update post
+                </Button>
             </Box>
         </Box>
     );

@@ -11,6 +11,7 @@ import EditProfile from "./pages/profile/editProfile";
 import Profile from "./pages/profile";
 import Post from "./pages/post";
 import EditPost from "./pages/post/editPost";
+import CreatePost from "./pages/post/createPost";
 
 //layouts
 import Root from "./layouts/root";
@@ -25,6 +26,7 @@ const App = () => {
                     <Route path="profile/edit" element={<EditProfile />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="post" element={<Post />} />
+                    <Route path="post/create" element={<CreatePost />} />
                     <Route path="post/edit" element={<EditPost />} />
                 </Route>
                 <Route path="/about" element={<About />} />

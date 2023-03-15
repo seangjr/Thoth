@@ -1,5 +1,14 @@
-import { Box, Flex, Avatar, Textarea, Button, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Avatar,
+    Textarea,
+    Button,
+    Text,
+    useToast,
+} from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 const CommentEditor = ({
@@ -12,11 +21,17 @@ const CommentEditor = ({
     closeEditor,
     onComment,
     comments,
+    content,
 }) => {
     const [commentText, setCommentText] = useState("");
+    const navigate = useNavigate();
+    const toast = useToast();
     const user = useAuth();
     useEffect(() => {
         replyingTo && setCommentText(`@${replyingTo} `);
+        if (isUpdate) {
+            setCommentText(content);
+        }
     }, []);
 
     // remove @username from commentText
@@ -35,7 +50,34 @@ const CommentEditor = ({
     const handleClick = () => {
         if (commentText === "") return;
         if (isUpdate) {
-            // editComment(id, commentText);
+            axios
+                .put(`http://localhost:5000/api/comments/${id}`, {
+                    comment: commentText,
+                })
+                .then(() => {
+                    toast({
+                        title: "Comment updated.",
+                        description: "Your page will reload shortly.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top",
+                    });
+                    setTimeout(() => {
+                        navigate(0);
+                    }, 500);
+                })
+                .catch(() => {
+                    toast({
+                        title: "Error",
+                        description:
+                            "Something went wrong while updating your comment",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top",
+                    });
+                });
             closeEditor();
         }
 

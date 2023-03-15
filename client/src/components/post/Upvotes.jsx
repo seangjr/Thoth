@@ -25,19 +25,20 @@ const Upvotes = ({ isComment, isPost, id }) => {
                 });
         }
     };
+
     useEffect(() => {
         fetchUpvotes();
+        checkIfUpvoted();
     }, []);
-    const checkIfUpvoted = () => {
+    function checkIfUpvoted() {
         if (isComment) {
             axios
                 .get(
                     `http://localhost:5000/api/comments/upvote/${id}/${user.id}`,
                 )
                 .then((res) => {
-                    console.log(res.data);
                     if (res.data[0]) {
-                        return true;
+                        setUpvoteState(true);
                     }
                 });
         }
@@ -46,11 +47,11 @@ const Upvotes = ({ isComment, isPost, id }) => {
                 .get(`http://localhost:5000/api/posts/upvote/${id}/${user.id}`)
                 .then((res) => {
                     if (res.data[0]) {
-                        return true;
+                        setUpvoteState(true);
                     }
                 });
         }
-    };
+    }
     const handleUpvote = () => {
         if (upvoteState) return;
         if (isComment) {
@@ -122,6 +123,11 @@ const Upvotes = ({ isComment, isPost, id }) => {
                     color="white"
                     fontSize=".8rem"
                     bg="none"
+                    {...(upvoteState && {
+                        color: "gray.400",
+                        opacity: ".5",
+                        cursor: "default",
+                    })}
                     onClick={handleUpvote}
                     _hover={{
                         color: "blue.100",
@@ -136,6 +142,11 @@ const Upvotes = ({ isComment, isPost, id }) => {
                     color="white"
                     bg="none"
                     fontSize=".8rem"
+                    {...(!upvoteState && {
+                        color: "gray.400",
+                        opacity: ".5",
+                        cursor: "default",
+                    })}
                     onClick={handleDownvote}
                     _hover={{
                         color: "blue.100",

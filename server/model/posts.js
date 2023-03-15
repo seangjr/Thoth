@@ -46,11 +46,11 @@ module.exports.getPostByUser = (user_id) => {
     });
 };
 
-module.exports.createPost = (title, content, user_id) => {
+module.exports.createPost = (title, content, tags, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)",
-            [title, content, user_id],
+            "INSERT INTO posts (title, content, tags, user_id) VALUES (?, ?, ?, ?)",
+            [title, content, tags, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);
@@ -62,12 +62,11 @@ module.exports.createPost = (title, content, user_id) => {
     });
 };
 
-module.exports.updatePost = (id, title, content, user_id) => {
+module.exports.updatePost = (title, content, tags, id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE posts SET title = COALESCE(?, title), content = COALESCE(?, content) WHERE id = ? AND user_id = ?"[
-                (title, content, id, user_id)
-            ],
+            "UPDATE posts SET title = ?, content = ?, tags = ? WHERE id = ? AND user_id = ?",
+            [title, content, tags, id, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);

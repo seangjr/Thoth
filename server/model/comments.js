@@ -70,6 +70,22 @@ module.exports.createComment = (post_id, user_id, parent_id, comment) => {
     });
 };
 
+module.exports.updateComment = (comment, id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "UPDATE comments SET comment = ? WHERE id = ?",
+            [comment, id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
 module.exports.deleteComment = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(

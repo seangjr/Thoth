@@ -52,10 +52,28 @@ module.exports.createComment = (req, res) => {
         });
 };
 
-module.exports.deleteComment = (req, res) => {
-    const { id } = req.body;
+module.exports.updateComment = (req, res) => {
+    const { id } = req.params;
+    const { comment } = req.body;
     commentsModel
-        .deleteComment(id)
+        .updateComment(comment, id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            if (err.code === "MISSING_REQUIRED_FIELDS") {
+                res.status(400).end("Missing required fields");
+            } else {
+                res.status(500).end(err.toString());
+            }
+        });
+};
+
+module.exports.deleteComment = (req, res) => {
+    const { id } = req.params;
+    const { user_id } = req.body;
+    commentsModel
+        .deleteComment(id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })

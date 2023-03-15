@@ -36,9 +36,9 @@ module.exports.getPostByUser = (req, res) => {
 };
 
 module.exports.createPost = (req, res) => {
-    const { title, content, user_id } = req.body;
+    const { title, content, tags, user_id } = req.body;
     postsModel
-        .createPost(title, content, user_id)
+        .createPost(title, content, tags, user_id)
         .then((result) => {
             res.status(201).json(result);
         })
@@ -49,9 +49,9 @@ module.exports.createPost = (req, res) => {
 
 module.exports.updatePost = (req, res) => {
     const { id } = req.params;
-    const { title, content, user_id } = req.body;
+    const { title, content, tags, user_id } = req.body;
     postsModel
-        .updatePost(id, title, content, user_id)
+        .updatePost(title, content, tags, id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })
@@ -61,7 +61,7 @@ module.exports.updatePost = (req, res) => {
 };
 
 module.exports.deletePost = (req, res) => {
-    const { id, user_id } = req.body;
+    const { id, user_id } = req.params;
     postsModel
         .deletePost(id, user_id)
         .then((result) => {

@@ -1,5 +1,20 @@
-import { Badge, Box, Container, Text } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import {
+    Badge,
+    Box,
+    Container,
+    Text,
+    Button,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    useToast,
+} from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,15 +25,47 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const Post = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const user = useAuth();
+    const toast = useToast();
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const convertDate = (dateString) => {
         return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
         });
+    };
+    const handleDeletePost = () => {
+        axios
+            .delete(
+                `http://localhost:5000/api/posts/${location.state.post_id}/${user.id}`,
+            )
+            .then((res) => {
+                console.log(res.data);
+                toast({
+                    title: "Post deleted",
+                    description: "Your post has been deleted successfully!",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+                navigate("/feed");
+            })
+            .catch(() => {
+                toast({
+                    title: "Error",
+                    description:
+                        "Something went wrong while deleting your post",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top",
+                });
+            });
     };
     const fetchComments = () => {
         axios
@@ -47,6 +94,30 @@ const Post = () => {
         >
             <Box display="flex" flexDir="row">
                 <Upvotes isPost id={location.state.post_id} />
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent mt="20vh">
+                        <ModalHeader>
+                            Are you sure you want to delete this post?
+                        </ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            This action cannot be undone! All comments and votes
+                            on this post will be deleted.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button colorScheme="blue" mr={3} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button
+                                colorScheme="red"
+                                onClick={handleDeletePost}
+                            >
+                                Delete forever
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
                 <Container
                     display="flex"
                     flexDir="column"
@@ -93,6 +164,33 @@ const Post = () => {
                         <Text color="white" fontSize="md" mt="4">
                             {location.state.content}
                         </Text>
+                    </Box>
+                    <Box>
+                        {/* buttons to edit or delete post */}
+                        {user.username === location.state.author && (
+                            <Box display="flex" flexDir="row" mt="4">
+                                <Button
+                                    mr={3}
+                                    colorScheme="blue"
+                                    onClick={() =>
+                                        navigate("/post/edit", {
+                                            state: {
+                                                post_id: location.state.post_id,
+                                                title: location.state.title,
+                                                content: location.state.content,
+                                                tags: location.state.tags,
+                                            },
+                                        })
+                                    }
+                                >
+                                    Edit
+                                </Button>
+
+                                <Button colorScheme="red" onClick={onOpen}>
+                                    Delete
+                                </Button>
+                            </Box>
+                        )}
                     </Box>
                     {/* comments section */}
                     <Box display="flex" flexDir="column" mt="4">
