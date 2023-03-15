@@ -2,7 +2,7 @@ const connection = require("../db");
 module.exports.getPosts = () => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "SELECT posts.id, posts.title, posts.content, posts.user_id, posts.upvotes, posts.created_at, posts.tags, users.username FROM posts INNER JOIN users ON posts.user_id = users.id",
+            "SELECT posts.id, posts.title, posts.content, posts.user_id, posts.created_at, posts.tags, users.username FROM posts INNER JOIN users ON posts.user_id = users.id",
             (err, results) => {
                 if (err) {
                     reject(err);
@@ -83,7 +83,7 @@ module.exports.deletePost = (id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
             "DELETE FROM posts WHERE id = ? AND user_id = ?",
-            [id],
+            [id, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);
@@ -95,11 +95,11 @@ module.exports.deletePost = (id, user_id) => {
     });
 };
 
-module.exports.upvote = (id) => {
+module.exports.checkUpvotes = (post_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE posts SET upvotes = upvotes + 1 WHERE id = ?",
-            [id],
+            "SELECT * FROM upvotes_posts WHERE post_id = ?",
+            [post_id],
             (err, results) => {
                 if (err) {
                     reject(err);
@@ -111,11 +111,43 @@ module.exports.upvote = (id) => {
     });
 };
 
-module.exports.downvote = (id) => {
+module.exports.checkUpvote = (post_id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE posts SET upvotes = upvotes - 1 WHERE id = ?",
-            [id],
+            "SELECT * FROM upvotes_posts WHERE post_id = ? AND user_id = ?",
+            [post_id, user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.upvote = (post_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "INSERT INTO upvotes_posts (post_id, user_id) VALUES (?, ?)",
+            [post_id, user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.downvote = (post_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "DELETE FROM upvotes_posts WHERE post_id = ? AND user_id = ?",
+            [post_id, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);

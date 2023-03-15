@@ -70,10 +70,34 @@ module.exports.deleteComment = (req, res) => {
         });
 };
 
-module.exports.upvote = (req, res) => {
+module.exports.checkUpvotes = (req, res) => {
     const { id } = req.params;
     commentsModel
-        .upvote(id)
+        .checkUpvotes(id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.checkUpvote = (req, res) => {
+    const { comment_id, user_id } = req.params;
+    commentsModel
+        .checkUpvote(comment_id, user_id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.upvote = (req, res) => {
+    const { comment_id, user_id } = req.body;
+    commentsModel
+        .upvote(comment_id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })
@@ -83,9 +107,9 @@ module.exports.upvote = (req, res) => {
 };
 
 module.exports.downvote = (req, res) => {
-    const { id } = req.params;
+    const { comment_id, user_id } = req.body;
     commentsModel
-        .downvote(id)
+        .downvote(comment_id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })

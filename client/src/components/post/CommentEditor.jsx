@@ -29,7 +29,7 @@ const CommentEditor = ({
         (comment) => {
             onComment([...comments, comment]);
         },
-        [onComment],
+        [comments],
     );
 
     const handleClick = () => {

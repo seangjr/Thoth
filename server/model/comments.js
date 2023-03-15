@@ -30,7 +30,7 @@ module.exports.getComment = (id) => {
 module.exports.getCommentsByPost = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "SELECT comments.id, comments.comment as content, comments.upvotes, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE post_id = ?",
+            "SELECT comments.id, comments.comment as content, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE post_id = ?",
             [id],
             (err, results) => {
                 if (err) {
@@ -54,7 +54,7 @@ module.exports.createComment = (post_id, user_id, parent_id, comment) => {
                 } else {
                     // return the new comment
                     connection.query(
-                        "SELECT comments.id, comments.comment as content, comments.upvotes, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.id = ?",
+                        "SELECT comments.id, comments.comment as content, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.id = ?",
                         [results.insertId],
                         (err, results) => {
                             if (err) {
@@ -86,11 +86,11 @@ module.exports.deleteComment = (id) => {
     });
 };
 
-module.exports.upvote = (id) => {
+module.exports.checkUpvotes = (comment_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE comments SET upvotes = upvotes + 1 WHERE id = ?",
-            [id],
+            "SELECT * FROM upvotes_comments WHERE comment_id = ?",
+            [comment_id],
             (err, results) => {
                 if (err) {
                     reject(err);
@@ -102,11 +102,43 @@ module.exports.upvote = (id) => {
     });
 };
 
-module.exports.downvote = (id) => {
+module.exports.checkUpvote = (comment_id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE comments SET upvotes = upvotes - 1 WHERE id = ?",
-            [id],
+            "SELECT * FROM upvotes_comments WHERE comment_id = ? AND user_id = ?",
+            [comment_id, user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.upvote = (comment_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "INSERT INTO upvotes_comments (comment_id, user_id) VALUES (?, ?)",
+            [comment_id, user_id],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            },
+        );
+    });
+};
+
+module.exports.downvote = (comment_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(
+            "DELETE FROM upvotes_comments WHERE comment_id = ? AND user_id = ?",
+            [comment_id, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);

@@ -10,7 +10,9 @@ router.get("/post/:id", controller.getCommentsByPost);
 router.post("/", loggedIn, controller.createComment);
 router.delete("/", loggedIn, controller.deleteComment);
 
-router.put("/upvote/:id", loggedIn, controller.upvote);
-router.put("/downvote/:id", loggedIn, controller.downvote);
+router.get("/upvotes/:id", controller.checkUpvotes);
+router.get("/upvote/:comment_id/:user_id", controller.checkUpvote);
+router.post("/upvote", loggedIn, controller.upvote);
+router.delete("/downvote", loggedIn, controller.downvote);
 
 module.exports = router;

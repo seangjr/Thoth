@@ -72,10 +72,34 @@ module.exports.deletePost = (req, res) => {
         });
 };
 
-module.exports.upvote = (req, res) => {
+module.exports.checkUpvotes = (req, res) => {
     const { id } = req.params;
     postsModel
-        .upvote(id)
+        .checkUpvotes(id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.checkUpvote = (req, res) => {
+    const { post_id, user_id } = req.params;
+    postsModel
+        .checkUpvote(post_id, user_id)
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).end(err.toString());
+        });
+};
+
+module.exports.upvote = (req, res) => {
+    const { post_id, user_id } = req.body;
+    postsModel
+        .upvote(post_id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })
@@ -85,9 +109,9 @@ module.exports.upvote = (req, res) => {
 };
 
 module.exports.downvote = (req, res) => {
-    const { id } = req.params;
+    const { post_id, user_id } = req.body;
     postsModel
-        .downvote(id)
+        .downvote(post_id, user_id)
         .then((result) => {
             res.status(200).json(result);
         })

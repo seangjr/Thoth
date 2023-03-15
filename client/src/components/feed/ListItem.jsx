@@ -1,6 +1,6 @@
 import { Box, Avatar, Badge, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-const ListItem = ({ id, topic, author, date, upvotes, tags, content }) => {
+const ListItem = ({ id, topic, author, date, tags, content }) => {
     const tagsArr = [];
     if (tags) {
         tags.split(" ").forEach((tag) => {
@@ -27,7 +27,6 @@ const ListItem = ({ id, topic, author, date, upvotes, tags, content }) => {
                             title: topic,
                             author: author,
                             date: date,
-                            upvotes: upvotes,
                             tags: tags,
                             content: content,
                         }}
@@ -77,7 +76,6 @@ const ListItem = ({ id, topic, author, date, upvotes, tags, content }) => {
                     <Box mr={2} color="gray.500">
                         {date}
                     </Box>
-                    <Box color="gray.500">{upvotes}</Box>
                 </Box>
             </Box>
             {/* Tags */}
@@ -91,7 +89,7 @@ const ListItem = ({ id, topic, author, date, upvotes, tags, content }) => {
                 {tagsArr.map((tag) => (
                     <Badge
                         h={5}
-                        bg="#0CC5FF"
+                        colorScheme="blue"
                         _hover={{
                             cursor: "pointer",
                             textDecor: "underline",

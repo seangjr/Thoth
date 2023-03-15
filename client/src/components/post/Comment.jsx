@@ -1,21 +1,12 @@
-import { Box, Text, Avatar, Button, Flex, IconButton } from "@chakra-ui/react";
-import { AddIcon, MinusIcon } from "@chakra-ui/icons";
-import CommentEditor from "./CommentEditor";
+import { Box, Text, Avatar, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 
-const Comment = ({
-    id,
-    parentId,
-    content,
-    upvotes,
-    user,
-    replyingTo,
-    date,
-}) => {
+import CommentEditor from "./CommentEditor";
+import Upvotes from "./Upvotes";
+
+const Comment = ({ id, parentId, content, user, replyingTo, date }) => {
     const [showCommentEditor, toggleCommentEditor] = useState(false);
-    const [counterState, setCounterState] = useState("neutral");
-    const [upvoteCount, setUpvoteCount] = useState(upvotes);
     const [editorMode, setEditorMode] = useState("reply");
     const handleClick = (e) => {
         if (e.target.value === "reply") {
@@ -27,35 +18,6 @@ const Comment = ({
             setEditorMode("edit");
             toggleCommentEditor(!showCommentEditor);
         }
-    };
-
-    const handleUpvote = () => {
-        if (counterState === "upvoted") return;
-        if (counterState === "downvoted") {
-            setCounterState("neutral");
-            setUpvoteCount(upvoteCount + 1);
-            // axios call to update upvote count
-            axios.put(`http://localhost:5000/api/comments/upvote/${id}`);
-            return;
-        }
-        setCounterState("upvoted");
-        setUpvoteCount(upvoteCount + 1);
-        // axios call to update upvote count
-        axios.put(`http://localhost:5000/api/comments/upvote/${id}`);
-    };
-
-    const handleDownvote = () => {
-        if (counterState === "downvoted") return;
-        if (counterState === "upvoted") {
-            setCounterState("neutral");
-            setUpvoteCount(upvoteCount - 1);
-            // axios call to update upvote count
-            axios.put(`http://localhost:5000/api/comments/downvote/${id}`);
-            return;
-        }
-        setCounterState("downvoted");
-        setUpvoteCount(upvoteCount - 1);
-        axios.put(`http://localhost:5000/api/comments/downvote/${id}`);
     };
 
     const renderCommentEditor = (editorMode) => {
@@ -80,53 +42,23 @@ const Comment = ({
         }
     };
 
-    const upvoteCounter = () => {
-        return (
-            <Box mr={5} w="40px">
-                <Flex
-                    alignItems="center"
-                    direction="column"
-                    justifyContent="space-between"
-                    borderRadius="xl"
-                    bg="gray.700"
-                >
-                    <IconButton
-                        icon={<AddIcon />}
-                        color="white"
-                        fontSize=".8rem"
-                        bg="none"
-                        onClick={handleUpvote}
-                        _hover={{
-                            color: "blue.100",
-                            bg: "none",
-                        }}
-                    />
-                    <Text color="white" fontSize="sm" mx={4}>
-                        {upvoteCount}
-                    </Text>
-                    <IconButton
-                        icon={<MinusIcon />}
-                        color="white"
-                        bg="none"
-                        fontSize=".8rem"
-                        onClick={handleDownvote}
-                        _hover={{
-                            color: "blue.100",
-                            bg: "none",
-                        }}
-                    />
-                </Flex>
-            </Box>
-        );
-    };
-
     return (
         <>
             <Box display="flex" flexDir="row" mt="4">
-                {upvoteCounter()}
+                <Upvotes isComment id={id} />
                 <Avatar src="https://a.ppy.sh" mr={3} />
                 <Box display="flex" flexDir="column">
-                    <Text color="white" fontSize="md" fontWeight="bold">
+                    <Text
+                        color="white"
+                        fontSize="md"
+                        fontWeight="bold"
+                        as={Link}
+                        to={`/user/${user}`}
+                        _hover={{
+                            color: "blue.100",
+                        }}
+                        transition="0.2s ease"
+                    >
                         {user}
                     </Text>
                     <Text color="gray.500" fontSize="sm">
