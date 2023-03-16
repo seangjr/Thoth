@@ -21,6 +21,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const Comment = ({
     id,
+    user_id,
     parentId,
     content,
     user,
@@ -55,7 +56,11 @@ const Comment = ({
 
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/api/comments/${id}/${loggedUser.id}`)
+            .delete(
+                `http://localhost:5000/api/comments/${id}/${
+                    loggedUser.role === "admin" ? user_id : loggedUser.id
+                }`,
+            )
             .then((res) => {
                 console.log(res.data);
                 toast({
@@ -94,6 +99,7 @@ const Comment = ({
         }
 
         if (editorMode === "edit") {
+            console.log(user_id);
             return (
                 <CommentEditor
                     id={id}
@@ -152,48 +158,48 @@ const Comment = ({
 
                     <Box display="flex" flexDir="row" mt="2">
                         {/* edit */}
-                        {user === loggedUser.username && (
-                            <Text
-                                color="white"
-                                p={0}
-                                bg="none"
-                                fontSize="md"
-                                fontWeight="bold"
-                                mr="2"
-                                cursor="pointer"
-                                as={Button}
-                                _hover={{
-                                    color: "blue.100",
-                                    bg: "none",
-                                }}
-                                transition={"0.2s ease"}
-                                onClick={handleClick}
-                                value="edit"
-                            >
-                                Edit
-                            </Text>
-                        )}
-                        {/* delete */}
-                        {user === loggedUser.username && (
-                            <Text
-                                color="white"
-                                p={0}
-                                bg="none"
-                                fontSize="md"
-                                fontWeight="bold"
-                                mr="2"
-                                cursor="pointer"
-                                as={Button}
-                                _hover={{
-                                    color: "red.200",
-                                    bg: "none",
-                                }}
-                                transition={"0.2s ease"}
-                                onClick={handleClick}
-                                value="delete"
-                            >
-                                Delete
-                            </Text>
+                        {(user_id === loggedUser.id ||
+                            loggedUser.role === "admin") && (
+                            <>
+                                <Text
+                                    color="white"
+                                    p={0}
+                                    bg="none"
+                                    fontSize="md"
+                                    fontWeight="bold"
+                                    mr="2"
+                                    cursor="pointer"
+                                    as={Button}
+                                    _hover={{
+                                        color: "blue.100",
+                                        bg: "none",
+                                    }}
+                                    transition={"0.2s ease"}
+                                    onClick={handleClick}
+                                    value="edit"
+                                >
+                                    Edit
+                                </Text>
+                                <Text
+                                    color="white"
+                                    p={0}
+                                    bg="none"
+                                    fontSize="md"
+                                    fontWeight="bold"
+                                    mr="2"
+                                    cursor="pointer"
+                                    as={Button}
+                                    _hover={{
+                                        color: "red.200",
+                                        bg: "none",
+                                    }}
+                                    transition={"0.2s ease"}
+                                    onClick={handleClick}
+                                    value="delete"
+                                >
+                                    Delete
+                                </Text>
+                            </>
                         )}
                     </Box>
                 </Box>

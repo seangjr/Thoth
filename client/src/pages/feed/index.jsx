@@ -141,6 +141,7 @@ const Feed = () => {
                                     )}
                                     tags={post.tags}
                                     content={post.content}
+                                    user_id={post.user_id}
                                 />
                             ))
                         ) : (

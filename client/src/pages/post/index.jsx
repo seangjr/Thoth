@@ -41,7 +41,9 @@ const Post = () => {
     const handleDeletePost = () => {
         axios
             .delete(
-                `http://localhost:5000/api/posts/${location.state.post_id}/${user.id}`,
+                `http://localhost:5000/api/posts/${location.state.post_id}/${
+                    user.role === "admin" ? location.state.user_id : user.id // If the user is an admin, they can delete any post. Otherwise, they can only delete their own posts.
+                }`,
             )
             .then((res) => {
                 console.log(res.data);
@@ -167,7 +169,8 @@ const Post = () => {
                     </Box>
                     <Box>
                         {/* buttons to edit or delete post */}
-                        {user.username === location.state.author && (
+                        {(user.id === location.state.user_id ||
+                            user.role === "admin") && (
                             <Box display="flex" flexDir="row" mt="4">
                                 <Button
                                     mr={3}
@@ -176,6 +179,7 @@ const Post = () => {
                                         navigate("/post/edit", {
                                             state: {
                                                 post_id: location.state.post_id,
+                                                user_id: location.state.user_id,
                                                 title: location.state.title,
                                                 content: location.state.content,
                                                 tags: location.state.tags,
@@ -208,6 +212,7 @@ const Post = () => {
                                 <Comment
                                     id={comment.id}
                                     key={comment.id}
+                                    user_id={comment.user_id}
                                     content={comment.content}
                                     user={comment.username}
                                     date={convertDate(comment.date)}

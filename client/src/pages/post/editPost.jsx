@@ -27,7 +27,8 @@ const EditPost = () => {
         axios
             .put(`http://localhost:5000/api/posts/${location.state.post_id}`, {
                 ...postDetails,
-                user_id: user.id,
+                user_id:
+                    user.role === "admin" ? location.state.user_id : user.id,
             })
             .then((res) => {
                 console.log(res.data);

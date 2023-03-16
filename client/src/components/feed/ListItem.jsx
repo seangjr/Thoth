@@ -1,6 +1,6 @@
 import { Box, Avatar, Badge, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-const ListItem = ({ id, topic, author, date, tags, content }) => {
+const ListItem = ({ id, user_id, topic, author, date, tags, content }) => {
     const tagsArr = [];
     if (tags) {
         tags.split(" ").forEach((tag) => {
@@ -24,6 +24,7 @@ const ListItem = ({ id, topic, author, date, tags, content }) => {
                         to="/post"
                         state={{
                             post_id: id,
+                            user_id: user_id,
                             title: topic,
                             author: author,
                             date: date,

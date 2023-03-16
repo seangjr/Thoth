@@ -30,7 +30,7 @@ module.exports.getComment = (id) => {
 module.exports.getCommentsByPost = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "SELECT comments.id, comments.comment as content, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE post_id = ?",
+            "SELECT comments.id, comments.user_id, comments.comment as content, comments.created_at as date, users.username FROM comments INNER JOIN users ON comments.user_id = users.id WHERE post_id = ?",
             [id],
             (err, results) => {
                 if (err) {
