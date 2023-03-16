@@ -86,11 +86,11 @@ module.exports.updateComment = (comment, id) => {
     });
 };
 
-module.exports.deleteComment = (id) => {
+module.exports.deleteComment = (id, user_id) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "DELETE FROM comments WHERE id = ?",
-            [id],
+            "DELETE FROM comments WHERE id = ? AND user_id = ?",
+            [id, user_id],
             (err, results) => {
                 if (err) {
                     reject(err);

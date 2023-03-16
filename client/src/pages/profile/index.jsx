@@ -7,10 +7,12 @@ import {
     SkeletonCircle,
     Skeleton,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Profile = () => {
     const user = useAuth();
+    const navigate = useNavigate();
     return user ? (
         <Box
             display="flex"
@@ -29,10 +31,22 @@ const Profile = () => {
                 {user.bio}
             </Text>
             <Box mt="8" display="flex" alignItems="center">
-                <Button colorScheme="blue" mr="4">
+                <Button
+                    colorScheme="blue"
+                    mr="4"
+                    onClick={() => navigate("/profile/edit")}
+                >
                     Edit Profile
                 </Button>
-                <Button colorScheme="red">Logout</Button>
+                <Button
+                    colorScheme="red"
+                    onClick={() => {
+                        localStorage.clear();
+                        navigate("/login");
+                    }}
+                >
+                    Logout
+                </Button>
             </Box>
         </Box>
     ) : (

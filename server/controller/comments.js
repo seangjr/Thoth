@@ -70,8 +70,7 @@ module.exports.updateComment = (req, res) => {
 };
 
 module.exports.deleteComment = (req, res) => {
-    const { id } = req.params;
-    const { user_id } = req.body;
+    const { id, user_id } = req.params;
     commentsModel
         .deleteComment(id, user_id)
         .then((result) => {

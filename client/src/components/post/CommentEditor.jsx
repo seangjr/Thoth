@@ -13,7 +13,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 const CommentEditor = ({
     isUpdate,
-    replyingTo,
     isNewComment,
     id,
     parentId,
@@ -28,16 +27,10 @@ const CommentEditor = ({
     const toast = useToast();
     const user = useAuth();
     useEffect(() => {
-        replyingTo && setCommentText(`@${replyingTo} `);
         if (isUpdate) {
             setCommentText(content);
         }
     }, []);
-
-    // remove @username from commentText
-    const removeUsername = () => {
-        return commentText.substring(replyingTo.length + 2);
-    };
 
     const handleOnComment = useCallback(
         // run onComment function from parent component which is in post/index.jsx which is setComment
@@ -81,12 +74,6 @@ const CommentEditor = ({
             closeEditor();
         }
 
-        //reply
-        if (!isUpdate && !isNewComment) {
-            // reply(parentId, user.username, cleanedCommentText, replyingTo);
-            closeEditor();
-        }
-
         //new comment
         if (isNewComment) {
             console.log(commentText);
@@ -117,6 +104,7 @@ const CommentEditor = ({
                     onChange={(e) => setCommentText(e.target.value)}
                     resize="none"
                 />
+                {}
                 <Button
                     bg="none"
                     onClick={handleClick}

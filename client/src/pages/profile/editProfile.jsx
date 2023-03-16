@@ -82,7 +82,7 @@ const EditProfile = () => {
             bgColor="#23262F"
         >
             <Box w="70%" mt={20}>
-                <Box id="heading" mb="35px" mt="3em">
+                <Box id="heading" mb="35px" mt="5em">
                     <Heading mb="10px" color="#FFF">
                         Edit Profile
                     </Heading>
@@ -97,7 +97,7 @@ const EditProfile = () => {
                     flexDirection={{ base: "column", md: "row" }}
                     justifyContent="between"
                 >
-                    <Box
+                    {/* <Box
                         id="image"
                         display="flex"
                         flexDirection="column"
@@ -138,7 +138,7 @@ const EditProfile = () => {
                                 </Button>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                     <Box id="details" w={{ base: "100%", md: "50%" }}>
                         <Heading fontSize="md" color="#fff">
                             Account Info

@@ -9,7 +9,7 @@ router.get("/:id", controller.getComment);
 router.get("/post/:id", controller.getCommentsByPost);
 router.post("/", loggedIn, controller.createComment);
 router.put("/:id", loggedIn, controller.updateComment);
-router.delete("/", loggedIn, controller.deleteComment);
+router.delete("/:id/:user_id", loggedIn, controller.deleteComment);
 
 router.get("/upvotes/:id", controller.checkUpvotes);
 router.get("/upvote/:comment_id/:user_id", controller.checkUpvote);
