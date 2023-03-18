@@ -12,12 +12,11 @@ const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const toast = useToast();
     const [loading, setLoading] = useState(true);
-    const setUser = ({ id, username, role, display_name, image, bio }) => {
+    const setUser = ({ id, username, role, image, bio }) => {
         setState({
             id,
             username,
             role,
-            display_name,
             image,
             bio,
         });
@@ -26,7 +25,6 @@ const AuthProvider = ({ children }) => {
         id: null,
         username: null,
         role: null,
-        display_name: null,
         image: null,
         bio: null,
     };
@@ -37,9 +35,9 @@ const AuthProvider = ({ children }) => {
                 "Authorization"
             ] = `Bearer ${localStorage.getItem("token")}`;
             const {
-                data: { id, username, role, display_name, image, bio },
+                data: { id, username, role, image, bio },
             } = await axios.get("http://localhost:5000/api/users/verify");
-            setUser({ id, username, role, display_name, image, bio });
+            setUser({ id, username, role, image, bio });
         } catch {
             toast({
                 title: "Unauthorized",

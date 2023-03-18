@@ -11,7 +11,7 @@ import {
     ModalFooter,
     useToast,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -27,7 +27,6 @@ const Comment = ({
     user,
     replyingTo,
     date,
-    setCount,
 }) => {
     const [showCommentEditor, toggleCommentEditor] = useState(false);
     const [editorMode, setEditorMode] = useState("reply");
@@ -135,17 +134,7 @@ const Comment = ({
                             <Button onClick={onClose}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    <Text
-                        color="white"
-                        fontSize="md"
-                        fontWeight="bold"
-                        as={Link}
-                        to={`/user/${user}`}
-                        _hover={{
-                            color: "blue.100",
-                        }}
-                        transition="0.2s ease"
-                    >
+                    <Text color="white" fontSize="md" fontWeight="bold">
                         {user}
                     </Text>
                     <Text color="gray.500" fontSize="sm">

@@ -89,36 +89,6 @@ const CreatePost = () => {
                             />
                         </Box>
                     </FormControl>
-                    {/* <FormControl mt="4" isRequired>
-                        <FormLabel color="gray.400">Images</FormLabel>
-                        <Box w={{ base: "100%", md: "50%" }}>
-                            <Box
-                                borderWidth="1px"
-                                p="2"
-                                borderColor="gray.300"
-                                borderRadius="md"
-                                h={{ base: "8rem", md: "10rem" }}
-                            >
-                                <Input
-                                    type="file"
-                                    color="#fff"
-                                    onChange={(e) =>
-                                        console.log(e.target.files[0])
-                                    }
-                                    style={{ display: "none" }}
-                                />
-                            </Box>
-                        </Box>
-                    </FormControl>
-                    <Button
-                        mt="2"
-                        colorScheme="#23262F"
-                        size="md"
-                        variant="outline"
-                        sx={{ borderColor: "white", color: "white" }}
-                    >
-                        Upload
-                    </Button> */}
                     <FormControl mt="4" isRequired>
                         <FormLabel color="gray.400">Tags</FormLabel>
                         <Box w={{ base: "100%", md: "50%" }}>

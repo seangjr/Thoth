@@ -51,26 +51,8 @@ const ListItem = ({ id, user_id, topic, author, date, tags, content }) => {
                         base: "hidden",
                     }}
                 >
-                    <Box
-                        mr={2}
-                        _hover={{
-                            color: "#0CC5FF",
-                            cursor: "pointer",
-                            textDecor: "underline",
-                        }}
-                        transition="0.2s ease"
-                    >
-                        <Text
-                            w="fit-content"
-                            _hover={{
-                                color: "#0CC5FF",
-                                cursor: "pointer",
-                                textDecor: "underline",
-                            }}
-                            transition="0.2s ease"
-                            as={Link}
-                            to={`/profile/${author}`}
-                        >
+                    <Box mr={2}>
+                        <Text w="fit-content" transition="0.2s ease">
                             {author}
                         </Text>
                     </Box>

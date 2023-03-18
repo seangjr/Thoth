@@ -59,11 +59,11 @@ module.exports.registerUser = (username, email, password) => {
     });
 };
 
-module.exports.updateUser = (id, username, display_name, bio, password) => {
+module.exports.updateUser = (id, username, bio, password) => {
     return new Promise((resolve, reject) => {
         connection.query(
-            "UPDATE users SET username = COALESCE(?, username), display_name = COALESCE(?, display_name), bio = COALESCE(?, bio) WHERE id = ? AND password = ?",
-            [username, display_name, bio, id, password],
+            "UPDATE users SET username = COALESCE(?, username), bio = COALESCE(?, bio) WHERE id = ? AND password = ?",
+            [username, bio, id, password],
             (err, results) => {
                 if (err) {
                     reject(err);

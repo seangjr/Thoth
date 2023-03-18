@@ -81,9 +81,9 @@ module.exports.getUser = (req, res) => {
 
 module.exports.updateUser = (req, res) => {
     const { id } = req.params;
-    const { username, display_name, bio, password } = req.body;
+    const { username, bio, password } = req.body;
     userModel
-        .updateUser(id, username, display_name, bio, password)
+        .updateUser(id, username, bio, password)
         .then((result) => {
             if (password !== result[0].password) {
                 // if password is changed, the token is invalid

@@ -23,18 +23,6 @@ module.exports.getPost = (req, res) => {
         });
 };
 
-module.exports.getPostByUser = (req, res) => {
-    const { user_id } = req.params;
-    postsModel
-        .getPostByUser(user_id)
-        .then((result) => {
-            res.json(result);
-        })
-        .catch((err) => {
-            res.status(500).end(err.toString());
-        });
-};
-
 module.exports.createPost = (req, res) => {
     const { title, content, tags, user_id } = req.body;
     postsModel

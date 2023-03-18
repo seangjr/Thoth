@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `upvotes_comments` (
 
 ALTER TABLE `posts` DROP `upvotes`;
 ALTER TABLE `comments` DROP `upvotes`;
+ALTER TABLE users ADD COLUMN bio TEXT NULL AFTER ;
 
 -- SELECT STATEMENT TO COUNT THE NUMBER OF UPVOTES FOR A POST
 SELECT COUNT(*) FROM upvotes_posts WHERE post_id = ?;

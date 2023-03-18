@@ -2,7 +2,6 @@ import {
     Box,
     Heading,
     Text,
-    Image,
     Button,
     FormControl,
     FormLabel,
@@ -12,7 +11,6 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useAuth } from "../../contexts/AuthContext";
-import { HiOutlineUpload } from "react-icons/hi";
 import { useState } from "react";
 import { MD5 } from "crypto-js";
 import axios from "axios";
@@ -70,15 +68,13 @@ const EditProfile = () => {
                 });
             });
     };
-    const handleUpload = (e) => {
-        e.preventDefault();
-    };
     return user ? (
         <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
+            minH="80vh"
             bgColor="#23262F"
         >
             <Box w="70%" mt={20}>
@@ -97,48 +93,6 @@ const EditProfile = () => {
                     flexDirection={{ base: "column", md: "row" }}
                     justifyContent="between"
                 >
-                    {/* <Box
-                        id="image"
-                        display="flex"
-                        flexDirection="column"
-                        w={{
-                            base: "100%",
-                            md: "50%",
-                        }}
-                        mb={{ base: "2rem", md: "0" }}
-                    >
-                        <Box
-                            display="flex"
-                            flexDirection="row"
-                            alignItems="center"
-                        >
-                            <Box mr="15px">
-                                <Image
-                                    borderRadius="full"
-                                    boxSize="120px"
-                                    src="https://a.ppy.sh"
-                                    alt="Dan Abramov"
-                                />
-                            </Box>
-                            <Box w="40%">
-                                <Heading mb="5px" fontSize="md" color="#fff">
-                                    Profile Picture
-                                </Heading>
-                                <Text mb="5px" fontSize="xs" color="#fff">
-                                    We recommend an image of at least 400x400
-                                </Text>
-                                <Button
-                                    size="sm"
-                                    rightIcon={<HiOutlineUpload />}
-                                    colorScheme="pink"
-                                    variant="solid"
-                                    borderRadius="100"
-                                >
-                                    Upload
-                                </Button>
-                            </Box>
-                        </Box>
-                    </Box> */}
                     <Box id="details" w={{ base: "100%", md: "50%" }}>
                         <Heading fontSize="md" color="#fff">
                             Account Info
@@ -158,21 +112,6 @@ const EditProfile = () => {
                                     type="text"
                                     color="#fff"
                                     name="username"
-                                    onChange={(e) => handleChange(e)}
-                                    required={false}
-                                />
-                                <FormLabel
-                                    fontSize="sm"
-                                    color="#fff"
-                                    requiredIndicator={false}
-                                >
-                                    Display Name
-                                </FormLabel>
-                                <Input
-                                    mb="2rem"
-                                    type="text"
-                                    color="#fff"
-                                    name="display_name"
                                     onChange={(e) => handleChange(e)}
                                     required={false}
                                 />
